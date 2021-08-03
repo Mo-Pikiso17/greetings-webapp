@@ -11,8 +11,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "mocha": "^9.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mo-Pikiso17/greetings-webapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mo-Pikiso17/greetings-webapp/issues"
+  },
+  "homepage": "https://github.com/Mo-Pikiso17/greetings-webapp#readme",
+  "description": ""
 }
