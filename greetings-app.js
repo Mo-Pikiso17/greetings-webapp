@@ -3,8 +3,6 @@ module.exports = function greetings() {
     //greets
     //recordNames
     //countsNames
-    //No duplicates
-    
     let names;
     let count = 0;
     let listNames = [];
@@ -90,4 +88,5 @@ module.exports = function greetings() {
         getCount,
         pushNames
     }
+
 }
