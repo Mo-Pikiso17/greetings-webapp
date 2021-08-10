@@ -4,19 +4,11 @@
     <table>
         <tr>
             <th>Names</th>
-            <th>Count</th>
         </tr>
-
         {{#each greetedNames}}
-
         <tr>
-            <td>{{{Names}}</td>
-            <td>{{Count}}</td>
+            <td><a href="/greetedNames/{{this}}">{{this}}</a></td>
         </tr>
         {{/each}}
-
-
     </table>
-
-   
 </div>
