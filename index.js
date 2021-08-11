@@ -129,13 +129,33 @@ app.get('/', function (req, res) {
 //   res.render('/')
 // })
 
-app.post('/greeted', function (req, res) {
+app.post('/', function (req, res) {
+
+  const name = req.body.name
+  const language = req.body.languageBtn
+
+  const msg = greeting.greets(language, name);
+  console.log({ msg });
 
   greeting.recordNames(req.body);
-  // console.log(req.body);
 
-  res.redirect('/');
+  res.render('index', {
+    msg,
+    count: greeting.getCount()
+  });
+
 })
+
+// app.post('/greeted', function (req, res) {
+
+//   greeting.recordNames(req.body);
+//   // console.log(req.body);
+
+//   res.redirect('/');
+
+
+// });
+
 
 // app.post('/language', function (req, res) {
 

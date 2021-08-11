@@ -39,7 +39,7 @@
             </div>
 
             <div class="second_div">
-                <form action="/greeted" method="POST">
+                <form action="/" method="POST">
 
                     <div class="names">
 
@@ -53,10 +53,10 @@
 
                     <div class="counts">
                         <!-- Insert counter label -->
-                        {{!-- <label for="count" style="font-weight: bold; font-size: 18px;">Counter:</label> --}}
-                        <!-- Insert counter using span -->
+                        <label for="count" style="font-weight: bold; font-size: 18px;">Counter:</label>
+                        <Insert counter using span
                         <span class="counter" name="count"
-                            style="font-size: 20px;font-weight: bold;">{{greetedNames.count}}</span>
+                            style="font-size: 20px;font-weight: bold;">{{count}}</span>
                     </div>
 
                     <div class="radios">
@@ -88,19 +88,24 @@
                             <button class="greetBtn" type="submit" style="font-size: 15px;">Greet</button>
                         </div>
 
-                        {{!-- <div class="rest">
+                        <div class="rest">
                             <!-- Reset button -->
-                            <button class="resetBtn" type="button" style="font-size: 15px;">Reset</button>
-                        </div> --}}
+                            <button class="resetBtn" type="reset" style="font-size: 15px;">Reset</button>
+                        </div>
                     </div>
+
 
                     <div>
-                        <h2 class="displayMsg" name="display" style="font-size: 22px;">{{name}}{{languageBtn}}</h2>
+                        <h2 align = "center" class="displayMsg" name="display" style="font-size: 22px;">{{msg}}</h2>
                     </div>
 
-
-
                 </form>
+
+
+
+
+
+
             </div>
 
 

@@ -56,6 +56,25 @@ module.exports = function greetings() {
 
     }
 
+    function greets(language, name) {
+console.log({language, name})
+        if (language === "English") {
+            return "Hello, " + name;
+        }
+
+        if (language === "IsiXhosa") {
+            return "Molo, " + name;
+        }
+
+        if (language === "Swahili") {
+
+            return "Jambo, " + name;
+        }
+
+        return language + name
+
+    }
+
     function getCount(name) {
 
         const counter = 0;
@@ -148,7 +167,7 @@ module.exports = function greetings() {
 
         recordNames,
         greetedNames,
-        // actionsFor,
+        greets,
         getCount,
 
     }
