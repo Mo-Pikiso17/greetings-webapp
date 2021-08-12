@@ -70,16 +70,39 @@ app.get('/', function (req, res) {
   res.render('index')
 })
 
-// app.post('/', function(req,res){
 
-//   var greet = req.body.name
+app.post('/', function (req, res) {
 
-//   res.render({
-//       `{{greet}}`
-//   })
+  const name = req.body.name
+  const language = req.body.languageBtn
+  // const counts = req.body.count
 
-// }
+  const msg = greeting.greets(language, name);
+  console.log({ msg });
 
+  const count = greeting.getC();
+  console.log(count);
+  // const counter= JSON.stringify(count);
+
+  greeting.recordNames(req.body);
+
+  res.render('index', {
+    msg,
+    count
+  });
+
+})
+
+app.get('/greetedNames', function (req, res) {
+
+  res.render('greetedNames', { greetedNames: greeting.greetedNames() })
+
+});
+
+app.get('/greetedNames/:name', function (req, res) {
+  const actionType = req.params.name;
+  res.render('count', { greetedNames: greeting.getCount(actionType) });
+});
 
 // app.post('/', function(req,res){
 
@@ -121,59 +144,6 @@ app.get('/', function (req, res) {
 //   }
 
 // })
-
-
-// app.get('/greeted', function (req, res) {
-
-//   //to keep data on the home route
-//   res.render('/')
-// })
-
-app.post('/', function (req, res) {
-
-  const name = req.body.name
-  const language = req.body.languageBtn
-
-  const msg = greeting.greets(language, name);
-  console.log({ msg });
-
-  greeting.recordNames(req.body);
-
-  res.render('index', {
-    msg,
-    count: greeting.getCount()
-  });
-
-})
-
-// app.post('/greeted', function (req, res) {
-
-//   greeting.recordNames(req.body);
-//   // console.log(req.body);
-
-//   res.redirect('/');
-
-
-// });
-
-
-// app.post('/language', function (req, res) {
-
-//   greeting.recordNames(req.body.languageBtn)
-//   res.redirect('/');
-// });
-
-app.get('/greetedNames', function (req, res) {
-
-  res.render('greetedNames', { greetedNames: greeting.greetedNames() })
-
-});
-
-app.get('/greetedNames/:name', function (req, res) {
-  const actionType = req.params.name;
-  res.render('count', { greetedNames: greeting.getCount(actionType) });
-});
-
 
 
 

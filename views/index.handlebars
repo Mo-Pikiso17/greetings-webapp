@@ -12,13 +12,11 @@
 <body>
     <div class="container">
         {{!-- flesh messages --}}
-        {{#if message}}
-        <div style="text-align: center" class="alert">{{message.type}}</div>
+        {{!-- {{#if message}}
+        <div style="text-align: center; color: brown; font-weight:bold" class="alert">{{message.type}}</div>
         <strong>{{message.info}}</strong> {{message.message}}
-        {{/if}}
+        {{/if}} --}}
         <div>
-
-
             <!-- Greeting heading -->
             <div class="heading">
                 <h1>Greeting Web-App</h1>
@@ -38,8 +36,14 @@
                 </h3>
             </div>
 
-            <div class="second_div">
-                <form action="/" method="POST">
+            {{!-- {{#if message}}
+            <div style="text-align: center; font-weight:bold" class="alert">{{message.type}}</div>
+            <strong>{{message.info}}</strong> {{message.message}}
+            {{/if}} --}}
+
+            <form action="/" method="POST">
+                <div class="second_div">
+
 
                     <div class="names">
 
@@ -54,76 +58,62 @@
                     <div class="counts">
                         <!-- Insert counter label -->
                         <label for="count" style="font-weight: bold; font-size: 18px;">Counter:</label>
-                        <Insert counter using span
-                        <span class="counter" name="count"
+                        <Insert counter using span <span class="counter" name="count"
                             style="font-size: 20px;font-weight: bold;">{{count}}</span>
                     </div>
+                </div>
 
-                    <div class="radios">
 
-                        <div>
-                            <h3>Please select a language</h3>
-                        </div>
-                        <!-- radio button with language label -->
-                        <div class="languages">
-                            <input class="languageBtn" type="radio" name="languageBtn" value="English">
-                            <label for="language">English</span>
-                        </div>
-
-                        <div class="languages">
-                            <input class="languageBtn" type="radio" name="languageBtn" value="IsiXhosa">
-                            <label for="language">IsiXhosa</span>
-                        </div>
-
-                        <div class="languages">
-                            <input class="languageBtn" type="radio" name="languageBtn" value="Swahili">
-                            <label for="language">Swahili</span>
-                        </div>
-                    </div>
-
-                    <div class="Buttons">
-
-                        <div class="greet">
-                            <!-- Greet me button -->
-                            <button class="greetBtn" type="submit" style="font-size: 15px;">Greet</button>
-                        </div>
-
-                        <div class="rest">
-                            <!-- Reset button -->
-                            <button class="resetBtn" type="reset" style="font-size: 15px;">Reset</button>
-                        </div>
-                    </div>
-
+                <div class="radios">
 
                     <div>
-                        <h2 align = "center" class="displayMsg" name="display" style="font-size: 22px;">{{msg}}</h2>
+                        <h3>Please select a language</h3>
+                    </div>
+                    <!-- radio button with language label -->
+                    <div class="languages">
+                        <input class="languageBtn" type="radio" name="languageBtn" value="English">
+                        <label for="language">English</span>
                     </div>
 
-                </form>
+                    <div class="languages">
+                        <input class="languageBtn" type="radio" name="languageBtn" value="IsiXhosa">
+                        <label for="language">IsiXhosa</span>
+                    </div>
+
+                    <div class="languages">
+                        <input class="languageBtn" type="radio" name="languageBtn" value="Swahili">
+                        <label for="language">Swahili</span>
+                    </div>
+                </div>
+
+                <div class="Buttons">
+
+                    <div class="greet">
+                        <!-- Greet me button -->
+                        <button class="greetBtn" type="submit" style="font-size: 15px;">Greet</button>
+                    </div>
+
+                    <div class="rest">
+                        <!-- Reset button -->
+                        <button class="resetBtn" type="reset" style="font-size: 15px;">Reset</button>
+                    </div>
+                </div>
 
 
-
-
-
-
-            </div>
-
-
+                <div>
+                    <h2 style="text-align: center" class="displayMsg" name="display" style="font-size: 18px;">
+                        {{msg}}</h2>
+                </div>
+            </form>
 
 
             <!-- Message space -->
 
         </div>
 
-
-
         <a href="/greetedNames">Greeted</a>
 
     </div>
-
-
-
-
 
 </body>
 

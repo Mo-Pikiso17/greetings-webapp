@@ -11,22 +11,22 @@ describe('Greeting function', function () {
 
         it('should greet a user in English', function () {
 
-            assert.strictEqual(("Hello, Moddy"), greetingApp.greet("English", "Moddy"));
+            assert.strictEqual(("Hello, Moddy"), greetingApp.greets("English", "Moddy"));
         });
 
         it('should greet a user in IsiXhosa', function () {
 
-            assert.equal(("Molo, Moddy"), greetingApp.greet("IsiXhosa", "Moddy"));
+            assert.equal(("Molo, Moddy"), greetingApp.greets("IsiXhosa", "Moddy"));
         });
 
         it('should greet a user in Swahili', function () {
 
-            assert.equal(("Jambo, Moddy"), greetingApp.greet("Swahili", "Moddy"));
+            assert.equal(("Jambo, Moddy"), greetingApp.greets("Swahili", "Moddy"));
         });
 
         it('should be able to record greeting', function () {
             greetingApp.recordNames('Hello');
-            assert.equal(0, greetingApp.actionsFor('Hello').length);
+            assert.equal(1, greetingApp.greetedNames('Hello').length);
         });
     });
 
@@ -39,24 +39,27 @@ describe('Greeting function', function () {
         it('should prevent duplicatation of a username', function(){
 
     
-            greetingApp.pushNames("Moddy");
-            greetingApp.pushNames("Moddy");
-            greetingApp.pushNames("Moddy");
+            greetingApp.setName("Moddy");
+            greetingApp.setName("Moddy");
+            greetingApp.setName("Moddy");
+            greetingApp.setName("Nalo");
+            greetingApp.setName("Ndalo");
+            // greetingApp.getC()
     
-            assert.equal(1, greetingApp.getCount());
-        });
+            assert.equal(3, greetingApp.getC());
+        }); 
 
         it('should count three usernames', function(){
 
     
-            greetingApp.pushNames('Moddy');
-            greetingApp.pushNames('Moddy');
-            greetingApp.pushNames('Moddy');
-            greetingApp.pushNames('Ndalo');
-            greetingApp.pushNames('Ndalo');
-            greetingApp.pushNames('Luyanda');
+            greetingApp.recordNames('Moddy');
+            greetingApp.recordNames('Moddy');
+            greetingApp.recordNames('Moddy');
+            greetingApp.recordNames('Ndalo');
+            greetingApp.recordNames('Ndalo');
+            greetingApp.recordNames('Luyanda');
     
-            assert.equal(3, greetingApp.getCount());
+            assert.equal(3, greetingApp.getC());
         });
 
     });

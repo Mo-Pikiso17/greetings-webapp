@@ -1,14 +1,15 @@
 module.exports = function greetings() {
 
+    //AIM:
+
     //greets
     //recordNames
     //countsNames
     //No duplicates
 
-    let names;
-    let count = 0;
-    let listNames = [];
+    let listNames = []; 
     let check = [];
+    let greetedNamesList = {};
 
 
     function recordNames(action) {
@@ -41,8 +42,6 @@ module.exports = function greetings() {
                 obj["languageBtn"] = "Jambo, "
             }
 
-
-
         }
 
         setLanguage()
@@ -50,14 +49,15 @@ module.exports = function greetings() {
 
         listNames.push(obj);
         // console.log(listNames);
-        console.log(obj);
+        console.log("here "+listNames);
 
 
 
     }
 
     function greets(language, name) {
-console.log({language, name})
+        setName(name)
+    console.log({language, name})
         if (language === "English") {
             return "Hello, " + name;
         }
@@ -92,38 +92,6 @@ console.log({language, name})
         return { count: recordList.length, name }
     }
 
-
-
-
-
-    // function recordNames(action) {
-
-    //     if (action === "English") {
-    //         count += names;
-    //     }
-
-    //     if (action === "IsiXhosa") {
-    //         count += names;
-    //     }
-
-    //     if (action === "Swahili") {
-    //         count += names;
-    //     }
-
-
-
-    // }
-
-
-    // function pushNames(names) {
-
-    //     if (!listNames.includes(names)) {
-
-    //         listNames.push(names);
-    //     }
-    // }
-
-
     function greetedNames() {
 
         //check empty object if has the index of names
@@ -131,44 +99,45 @@ console.log({language, name})
         for (let i = 0; i < listNames.length; i++) {
 
             var names = listNames[i].name
+            console.log(names)
             if (check.indexOf(names) !== -1) {
 
             } else {
                 check.push(names)
             }
         }
+        console.log(check)
+
         return check;
     }
 
-
-
-
-    // function actionsFor(name) {
-    //     const filteredNames = [];
-    //     const counter = 0;
-    //     // loop through all the entries in the action list 
-    //     for (let index = 0; index < listNames.length; index++) {
-    //         const action = listNames[index].name;
-    //         console.log(listNames)
-    //         // check this is the type we are doing the total for 
-    //         if (action == name ) {
-    //             // add the action to the list
-    //             filteredNames.push(action);
-    //         }
-    //     }
-    //     // console.log(filteredNames)
-    //     return  {count: counter, name}
-
-
-    //     // return actionList.filter((action) => action.type === type);
+    
+    // function getList(){
+    //     console.log(check.length)
+    //     return check.length;
+        
     // }
+
+    function setName(name) {
+
+    if (greetedNamesList[name] === undefined) {
+        greetedNamesList[name] = 0; 
+        }
+        console.log(greetedNamesList);
+    }
+
+    function getC() {
+        console.log(Object.keys(greetedNamesList));
+        return Object.keys(greetedNamesList).length;
+    }
 
     return {
 
         recordNames,
+        setName,
+        getC,
         greetedNames,
         greets,
         getCount,
-
     }
 }
