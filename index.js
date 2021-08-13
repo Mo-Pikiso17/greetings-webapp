@@ -2,7 +2,7 @@
 
 let express = require('express');
 // const flash = require('express-flash');
-// const session = require('express-session');
+const session = require('express-session');
 let app = express();
 
 //handlebars
@@ -19,7 +19,7 @@ const bodyParser = require('body-parser');
 
 //helpers
 const helpers = require('handlebars-helpers')();
-const session = require('express-session');
+// const session = require('express-session');
 
 const cookieParser = require('cookie-parser');
 
@@ -40,14 +40,15 @@ app.use(cookieParser('secret'));
 
 app.use(session({
   cookie: { maxAge: null },
-  secret: "<add a secret string here>",
-  resave: false,
-  saveUninitialized: true
+  // secret: "<a string session in javaScript>",
+  // resave: false,
+  // saveUninitialized: true
 }));
+
+// app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.message = req.session.message
-
   delete req.session.message
   next()
 });
@@ -73,25 +74,40 @@ app.get('/', function (req, res) {
 
 app.post('/', function (req, res) {
 
-  const name = req.body.name
+  const names = req.body.name
   const language = req.body.languageBtn
   // const counts = req.body.count
 
-  const msg = greeting.greets(language, name);
-  console.log({ msg });
+  if (names == '') {
 
-  const count = greeting.getC();
-  console.log(count);
-  // const counter= JSON.stringify(count);
+    req.session.message = {
+      type: 'ERROR!',
+      intro: 'Empty field',
+      message: 'Please enter a name!'
+    }
+    res.redirect('/');
 
-  greeting.recordNames(req.body);
+  } else {
 
-  res.render('index', {
-    msg,
-    count
-  });
+    const msg = greeting.greets(language, names);
+    // console.log({ msg });
+    const count = greeting.getC();
+    // console.log(count);
+
+    greeting.recordNames(req.body);
+
+    res.render('index', {
+      msg,
+      count
+    });
+
+  }
+  // if (req.body.name == '') {
+  //   req.flash = ('info', 'Please enter a name')
+  // }
 
 })
+
 
 app.get('/greetedNames', function (req, res) {
 
@@ -104,12 +120,12 @@ app.get('/greetedNames/:name', function (req, res) {
   res.render('count', { greetedNames: greeting.getCount(actionType) });
 });
 
-// app.post('/', function(req,res){
+
 
 //   //check empty field and send a flash message for that.
 //   if(req.body.name == '' && req.body.languageBtn == null ){
 
-//       req.session.message = {
+//       req.flash.message = {
 //           type: 'ERROR!',
 //           intro: 'Empty field and no language',
 //           message: 'Please enter a name & select a language'
@@ -118,7 +134,7 @@ app.get('/greetedNames/:name', function (req, res) {
 //   }
 //   if (req.body.name == ''){
 
-//       req.session.message = {
+//       req.flash.message = {
 //           type: 'ERROR!',
 //           intro: 'Empty field',
 //           message: 'Please enter a name'
@@ -135,7 +151,7 @@ app.get('/greetedNames/:name', function (req, res) {
 //   //     res.redirect('/');
 //   // }
 //   else{
-//       req.session.message = {
+//       req.flash.message = {
 //           type: 'Success!',
 //           intro: 'Name entered',
 //           message: 'Name greeted sucessfully'
@@ -148,7 +164,7 @@ app.get('/greetedNames/:name', function (req, res) {
 
 
 //start the server
-let PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT || 3012;
 
 app.listen(PORT, function () {
   console.log('App starting at port:', PORT);

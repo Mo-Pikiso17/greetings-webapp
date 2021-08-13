@@ -6,16 +6,12 @@
     <title>Document</title>
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <link rel="stylesheet" href="css/greet.css">
+    <link rel="stylesheet" href="/css/greet.css">
 </head>
 
 <body>
     <div class="container">
-        {{!-- flesh messages --}}
-        {{!-- {{#if message}}
-        <div style="text-align: center; color: brown; font-weight:bold" class="alert">{{message.type}}</div>
-        <strong>{{message.info}}</strong> {{message.message}}
-        {{/if}} --}}
+        
         <div>
             <!-- Greeting heading -->
             <div class="heading">
@@ -24,24 +20,14 @@
                     enter a name and select a language.</h4>
             </div>
 
-            <!-- <div class="welcome" style="font-size: 20px;"><h4>Welcome! To greet, please enter a name and select a language</h4></div> -->
-
-            <!-- Error Message space -->
-            <div>
-                <h3 class="erroMsg"
-                    style="color: brown; font-weight:bold; font-size: 16px; font-family: Arial, Helvetica, sans-serif;">
-                </h3>
-                <h3 class="clearMsg"
-                    style="color: rgb(12, 97, 97); font-weight:bold; font-size: 16px; font-family: Arial, Helvetica, sans-serif;">
-                </h3>
-            </div>
-
-            {{!-- {{#if message}}
-            <div style="text-align: center; font-weight:bold" class="alert">{{message.type}}</div>
+            {{#if message}}
+            <div style="text-align: center; color: brown; font-weight:bold" class="alert">{{message.type}}</div>
             <strong>{{message.info}}</strong> {{message.message}}
-            {{/if}} --}}
+            {{/if}}
+
 
             <form action="/" method="POST">
+
                 <div class="second_div">
 
 
@@ -101,7 +87,8 @@
 
 
                 <div>
-                    <h2 style="text-align: center" class="displayMsg" name="display" style="font-size: 18px;">
+                    <h2 style="text-align: center; font-family:Arial, Helvetica, sans-serif" class="displayMsg"
+                        name="display" style="font-size: 18px;">
                         {{msg}}</h2>
                 </div>
             </form>

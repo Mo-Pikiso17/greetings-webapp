@@ -39,11 +39,11 @@ describe('Greeting function', function () {
         it('should prevent duplicatation of a username', function(){
 
     
-            greetingApp.setName("Moddy");
-            greetingApp.setName("Moddy");
-            greetingApp.setName("Moddy");
-            greetingApp.setName("Nalo");
-            greetingApp.setName("Ndalo");
+            greetingApp.setNames("Moddy");
+            greetingApp.setNames("Moddy");
+            greetingApp.setNames("Moddy");
+            greetingApp.setNames("Nalo");
+            greetingApp.setNames("Ndalo");
             // greetingApp.getC()
     
             assert.equal(3, greetingApp.getC());
