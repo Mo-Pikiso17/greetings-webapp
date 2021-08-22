@@ -8,15 +8,12 @@
             <a href="/greetedNames/count"><button>NEXT</button></a>
         </div> --}}
 
-    <h1>Names Greeted</h1>
+    <h1>Greeted Users</h1>
 
-    <table>
-        <tr>
-            <th>Names</th>
-        </tr>
+    <table style="margin: auto; margin-top:20px;font-size: 20px;">
         {{#each list}}
         <tr>
-            <td><a href="/greetedNames/{{this}}">{{this}}</a></td>
+            <td ><a href="/greetedNames/{{this}}">{{this}}</a></td>
         </tr>
         {{/each}}
     </table>

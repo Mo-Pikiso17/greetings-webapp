@@ -84,7 +84,11 @@ app.use(session({
 
 app.use((req, res, next) => {
   res.locals.message = req.session.message
+  res.locals.messages = req.session.messages
+
   delete req.session.message
+  delete req.session.messages
+
   next()
 });
 
@@ -109,7 +113,6 @@ app.get('/', function (req, res) {
 
 
 app.post('/', function (req, res) {
-  // const named =;
 
   const names = req.body.name
   const language = req.body.languageBtn
@@ -197,6 +200,12 @@ app.get('/greetedNames/:name', function (req, res) {
 app.get('/reset', function (req, res) {
 
   dbLogic().reset(res)
+    req.session.messages = {
+      types: 'SUCCESS!',
+      intro: 'Empty field',
+      messages: 'Page Reloaded!'
+    }
+    res.redirect('/')
 
 })
 
