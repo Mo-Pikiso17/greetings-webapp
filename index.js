@@ -88,7 +88,6 @@ app.use((req, res, next) => {
 
   delete req.session.message
   delete req.session.messages
-
   next()
 });
 
@@ -205,7 +204,7 @@ app.get('/reset', function (req, res) {
       intro: 'Empty field',
       messages: 'Page Reloaded!'
     }
-    res.redirect('/')
+
 
 })
 
