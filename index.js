@@ -25,10 +25,10 @@ const handlebarSetup = exphbs({
 });
 
 // database connection to use
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
+// const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
 
 const pool = new Pool({
-  connectionString,
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb',
   ssl: useSSL
 });
 
