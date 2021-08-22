@@ -1,3 +1,5 @@
+const dbLogic = require('./db-factory');
+
 module.exports = function greetings() {
 
 
@@ -14,7 +16,7 @@ module.exports = function greetings() {
 
 
 
-    function recordNames(action) {
+    function recordNames(action, res) {
 
         var obj = {};
 
@@ -47,6 +49,7 @@ module.exports = function greetings() {
 
 
         listNames.push(obj);
+        dbLogic().dbLog(obj, res).setDataToDb();
         // console.log(listNames);
         // console.log("here "+listNames);
 
@@ -70,7 +73,7 @@ module.exports = function greetings() {
         if (language === "Swahili") {
             return "Jambo, " + name;
         }
-
+     
         return language + name
 
 
@@ -100,60 +103,43 @@ module.exports = function greetings() {
         for (let i = 0; i < listNames.length; i++) {
 
             var names = listNames[i].name
-            console.log(names)
+            // console.log(names)
             if (check.indexOf(names) !== -1) {
 
             } else {
                 check.push(names)
             }
         }
-        console.log(check)
+        // dbLogic().setDataToDb()
+
+        console.log(listNames)
 
         return check;
     }
 
 
-    // function getList(){
-    //     console.log(check.length)
-    //     return check.length;
-
-    // }
+    
 
     function setNames(name) {
+        
 
         if (greetedNamesList[name] == undefined) {
-            console.log(greetedNamesList)
+            // console.log(greetedNamesList)
 
             greetedNamesList[name] = 0;
         }
 
-        console.log(greetedNamesList);
+        //console.log(greetedNamesList);
     }
 
     function getC() {
-        console.log(Object.keys(greetedNamesList).length)
+        // console.log(Object.keys(greetedNamesList).length)
 
         return Object.keys(greetedNamesList).length;
         // return listed.length;
     }
 
-    // function checking(data) {
-    //     var name = ""
-    //     var language = ""
-    //     // const empty = ""
 
-    //     if (data.languageBtn == undefined || data.name == "") {
-    //         // console.log('missing value')
-    //         return {language, name};
-
-    //     } else {
-    //         // console.log('got the value')
-    //         name = data.name
-    //         language = data.languageBtn
-    //         return { language, name }
-    //     }
-
-    // }
 
     return {
 
@@ -165,3 +151,5 @@ module.exports = function greetings() {
         getCount,
     }
 }
+
+

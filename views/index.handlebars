@@ -81,7 +81,7 @@
 
                     <div class="rest">
                         <!-- Reset button -->
-                        <button class="resetBtn" type="reset" style="font-size: 15px;">Reset</button>
+                        <a href="/reset"><button class="resetBtn" type="button" style="font-size: 15px;">Reset</button></a>
                     </div>
                 </div>
 
@@ -89,7 +89,7 @@
                 <div>
                     <h2 style="text-align: center; font-family:Arial, Helvetica, sans-serif" class="displayMsg"
                         name="display" style="font-size: 18px;">
-                        {{msg}}</h2>
+                        {{data.language}}{{data.name}}</h2>
                 </div>
             </form>
 
@@ -98,7 +98,7 @@
 
         </div>
 
-        <a href="/greetedNames">Greeted</a>
+        <a href="/greetedNames">Show Users</a>
 
     </div>
 

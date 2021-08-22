@@ -1,11 +1,20 @@
 <div class="container">
+
+        <div style="margin-right:650px;">
+            <a href="/"><button>BACK</button></a>
+        </div>
+
+        {{!-- <div style="margin-left:30px;">
+            <a href="/greetedNames/count"><button>NEXT</button></a>
+        </div> --}}
+
     <h1>Names Greeted</h1>
 
     <table>
         <tr>
             <th>Names</th>
         </tr>
-        {{#each greetedNames}}
+        {{#each list}}
         <tr>
             <td><a href="/greetedNames/{{this}}">{{this}}</a></td>
         </tr>
