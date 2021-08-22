@@ -88,11 +88,10 @@ app.use((req, res, next) => {
   next()
 });
 
-
-
 app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
 
+//database factory function
 const dbLogic = require('./db-factory');
 
 const greetings = require('./greetings-webapp');
@@ -102,7 +101,8 @@ const greeting = greetings();
 
 //home route
 app.get('/', function (req, res) {
- dbLogic().dbLog('data', res).getValueFromDb()
+
+  dbLogic().dbLog('data', res).getValueFromDb()
   //to keep data on the home route
   // res.render('index')
 })
@@ -114,20 +114,45 @@ app.post('/', function (req, res) {
   const names = req.body.name
   const language = req.body.languageBtn
 
-  greeting.recordNames(req.body, res)
+  // greeting.recordNames(req.body, res)
 
   // const counts = req.body.count
 
-  // if (names == '') {
+  if (names == '' && language == null) {
 
-  //   req.session.message = {
-  //     type: 'ERROR!',
-  //     intro: 'Empty field',
-  //     message: 'Please enter a name!'
-  //   }
-  //   res.redirect('/');
+    req.session.message = {
+      type: 'ERROR!',
+      intro: 'Empty field',
+      message: 'Please enter and select a language!'
+    }
+    res.redirect('/');
 
-  // } 
+  }
+
+  else if (names == '') {
+
+    req.session.message = {
+      type: 'ERROR!',
+      intro: 'Empty field',
+      message: 'Please enter a name!'
+    }
+    res.redirect('/');
+  }
+
+  else if (language == null) {
+
+    req.session.message = {
+      type: 'ERROR!',
+      intro: 'Empty field',
+      message: 'Please select a language!'
+    }
+    res.redirect('/');
+
+  }
+
+  else {
+    greeting.recordNames(req.body, res)
+  }
 
   // else {
   // greetings.recordNames(req.body, res)
@@ -136,22 +161,22 @@ app.post('/', function (req, res) {
   //   const count = greeting.getC();
   //   // console.log(count);
   //   greeting.greetedNames(req.body)
-    
 
-    // pool.query(
-    //   'INSERT INTO users (name, count) VALUES ($1, $2)',
-      
-    //   [names, count],
 
-    // );
+  // pool.query(
+  //   'INSERT INTO users (name, count) VALUES ($1, $2)',
 
-    // res.render('index', {
-    //   msg,
-    //   count
-    // });
-  
+  //   [names, count],
+
+  // );
+
+  // res.render('index', {
+  //   msg,
+  //   count
+  // });
+
   // }
-  
+
 });
 
 
@@ -169,7 +194,7 @@ app.get('/greetedNames/:name', function (req, res) {
 
 });
 
-app.get('/reset', function(req, res){
+app.get('/reset', function (req, res) {
 
   dbLogic().reset(res)
 
