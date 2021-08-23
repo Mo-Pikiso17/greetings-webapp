@@ -233,6 +233,12 @@ app.get('/reset', function (req, res) {
 // })
 
 
+process.on("unhandledRejection", err =>{
+
+  console.log(`send this error to: ${err.stack}`);
+  console.log("---------------------------");
+
+})
 
 //start the server
 let PORT = process.env.PORT || 3011;
