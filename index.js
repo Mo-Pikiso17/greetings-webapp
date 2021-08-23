@@ -2,7 +2,7 @@
 
 let express = require('express');
 // const flash = require('express-flash');
-const session = require('cookie-session');
+const session = require('express-session');
 let app = express();
 
 const pg = require('pg');
