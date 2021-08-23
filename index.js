@@ -5,25 +5,6 @@ let express = require('express');
 const session = require('express-session');
 let app = express();
 
-const pg = require('pg');
-const Pool = pg.Pool;
-
-// use a SSL connection
-let useSSL = false;
-let local = process.env.LOCAL || false;
-if (process.env.DATABASE_URL && !local) {
-  useSSL = true;
-}
-
-// database connection to use
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
-
-const pool = new Pool({
-  connectionString,
-  ssl: useSSL
-
-});
-
 //handlebars
 const exphbs = require('express-handlebars');
 
@@ -33,10 +14,6 @@ const handlebarSetup = exphbs({
   layoutsDir: './views/layouts'
 });
 
-
-
-
-
 //html forms
 const bodyParser = require('body-parser');
 
@@ -45,25 +22,6 @@ const helpers = require('handlebars-helpers')();
 // const session = require('express-session');
 
 const cookieParser = require('cookie-parser');
-// const {Client} = require('pg')
-// const client = new Client({
-//   user: "postgres",
-//   host: 'localhost',
-//   password: "moddy123",
-//   port:5432,
-//   database: "greetingWeb"
-// })
-
-// //returns a promise
-// client.connect()
-// .then(()=> console.log("Connected Successfully!"))
-// .then(()=> client.query("SELECT * FROM users"))
-// .then(results=> console.table(results.rows))
-// //in case an error
-// .catch(e => console.log(e))
-// //ends the connection when done
-// .finally(() => client.end())
-
 
 //make the style in ccs folder visible
 app.use(express.static(__dirname + '/public'));
@@ -93,6 +51,27 @@ app.use((req, res, next) => {
   delete req.session.messages
   next()
 });
+
+const pg = require('pg');
+const Pool = pg.Pool;
+
+// use a SSL connection
+let useSSL = false;
+let local = process.env.LOCAL || false;
+if (process.env.DATABASE_URL && !local) {
+  useSSL = true;
+}
+
+// database connection to use
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
+
+const pool = new Pool({
+  connectionString,
+  ssl: useSSL
+
+});
+
+
 
 app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
