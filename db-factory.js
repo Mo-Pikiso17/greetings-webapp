@@ -1,8 +1,8 @@
 const pg = require('pg');
 const Pool = pg.Pool;
 
-let useSSL = false;
-let local = process.env.LOCAL || false;
+const useSSL = false;
+const local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local) {
     useSSL = true;
 }
@@ -11,7 +11,7 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:modd
 
 const pool = new Pool({
     connectionString,
-    ssl: useSSL
+    ssl: { rejectUnauthorized: false }
 });
 
 module.exports = function greeted() {

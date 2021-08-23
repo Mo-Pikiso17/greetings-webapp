@@ -9,11 +9,19 @@ const pg = require('pg');
 const Pool = pg.Pool;
 
 // use a SSL connection
-let useSSL = false;
-let local = process.env.LOCAL || false;
+const useSSL = false;
+const local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local) {
   useSSL = true;
 }
+
+// database connection to use
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
+
+const pool = new Pool({
+  connectionString,
+  ssl: { rejectUnauthorized: false }
+});
 
 //handlebars
 const exphbs = require('express-handlebars');
@@ -24,13 +32,7 @@ const handlebarSetup = exphbs({
   layoutsDir: './views/layouts'
 });
 
-// database connection to use
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
 
-const pool = new Pool({
-  connectionString,
-  ssl: useSSL
-});
 
 
 
