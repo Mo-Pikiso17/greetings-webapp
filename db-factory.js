@@ -23,7 +23,7 @@ module.exports = function greeted() {
             pool
                 .query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [data.name, 1, data.languageBtn])
                 .then(resp => {
-                    res.render('index')
+                    res.redirect('/')
                 })
                 .catch(err => console.log(err))
         }
