@@ -55,7 +55,7 @@ module.exports = function greeted() {
                     setTimeout(() => {
                         res.render('index', { data: database, count: obj.count })
 
-                    }, 1000);
+                    }, 2000);
 
                 })
                 .catch()
