@@ -257,5 +257,5 @@ app.get('/reset', function (req, res) {
 let PORT = process.env.PORT || 3011;
 
 app.listen(PORT, function () {
-  console.log('App starting at port:', PORT);
+  console.log('App starting at port:', this.address().PORT, app.settings.env);
 });
