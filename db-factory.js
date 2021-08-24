@@ -1,3 +1,5 @@
+require('make-promises-safe'); // installs an 'unhandledRejection' handler
+
 const pg = require('pg');
 const Pool = pg.Pool;
 
@@ -34,7 +36,7 @@ module.exports = function greeted() {
             pool
                 .query("SELECT DISTINCT name FROM users")
                 .then(resp => {
-                    var arg = resp.rows
+                    const arg = resp.rows
                     arg.forEach(element => {
                         obj.count++
                     })
@@ -45,9 +47,9 @@ module.exports = function greeted() {
             pool
                 .query("SELECT * FROM users")
                 .then(resp => {
-                    var array = resp.rows
+                    const array = resp.rows
 
-                    var database = array[array.length - 1]
+                    const database = array[array.length - 1]
 
                     // const realDb = [database.name, database.language]
                     // console.log(realDb)
@@ -72,8 +74,8 @@ module.exports = function greeted() {
             .query("SELECT DISTINCT name FROM users")
             .then(resp => {
                 //get data from that specific row
-                var  data = resp.rows
-                var list = []
+                const data = resp.rows
+                const list = []
                 data.forEach(element => {
                     list.push(element.name)
                 })
@@ -91,8 +93,8 @@ module.exports = function greeted() {
         pool
             .query("SELECT name FROM users")
             .then(resp => {
-                var data = resp.rows
-                var listCount = []
+                const data = resp.rows
+                const listCount = []
                 data.forEach(element => {
                     if (element.name === names) {
                         listCount.push(element.name)
@@ -127,7 +129,7 @@ module.exports = function greeted() {
     // function haltOnTimedout (req, res, next) {
     //     if (!req.timedout) next()
     //   }
-      
+
 
     return {
         dbLog,
