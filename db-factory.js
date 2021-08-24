@@ -134,6 +134,5 @@ module.exports = function greeted() {
         getGreetedList,
         getCountOFName,
         reset,
-        haltOnTimedout
     }
 }
