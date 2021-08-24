@@ -4,6 +4,8 @@ let express = require('express');
 // const flash = require('express-flash');
 const session = require('express-session');
 let app = express();
+const timeout = require('connect-timeout')
+
 
 //handlebars
 const exphbs = require('express-handlebars');
@@ -52,6 +54,8 @@ app.use((req, res, next) => {
   next()
 });
 
+app.use(timeout('5s'))
+
 const pg = require('pg');
 const Pool = pg.Pool;
 
@@ -83,6 +87,13 @@ const greetings = require('./greetings-webapp');
 
 const greeting = greetings();
 
+app.post('/save', timeout('5s'), bodyParser.json(), haltOnTimedout, function (req, res, next) {
+  savePost(req.body, function (err, id) {
+    if (err) return next(err)
+    if (req.timedout) return
+    res.send('saved as id ' + id)
+  })
+})
 
 //home route
 app.get('/', function (req, res) {
@@ -233,12 +244,13 @@ app.get('/reset', function (req, res) {
 // })
 
 
-process.on("unhandledRejection", err =>{
+// process.on("unhandledRejection", err =>{
 
-  console.log(`send this error to: ${err.stack}`);
-  console.log("---------------------------");
+//   console.log(`send this error to: ${err.stack}`);
+//   console.log("---------------------------");
 
-})
+// })
+
 
 //start the server
 let PORT = process.env.PORT || 3011;

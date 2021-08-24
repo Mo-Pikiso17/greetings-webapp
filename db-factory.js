@@ -124,10 +124,16 @@ module.exports = function greeted() {
 
     }
 
+    // function haltOnTimedout (req, res, next) {
+    //     if (!req.timedout) next()
+    //   }
+      
+
     return {
         dbLog,
         getGreetedList,
         getCountOFName,
-        reset
+        reset,
+        haltOnTimedout
     }
 }
