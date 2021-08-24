@@ -34,7 +34,7 @@ module.exports = function greeted() {
             pool
                 .query("SELECT DISTINCT name FROM users")
                 .then(resp => {
-                    const arg = resp.rows
+                    var arg = resp.rows
                     arg.forEach(element => {
                         obj.count++
                     })
@@ -45,9 +45,9 @@ module.exports = function greeted() {
             pool
                 .query("SELECT * FROM users")
                 .then(resp => {
-                    const array = resp.rows
+                    var array = resp.rows
 
-                    const database = array[array.length - 1]
+                    var database = array[array.length - 1]
 
                     // const realDb = [database.name, database.language]
                     // console.log(realDb)
@@ -72,8 +72,8 @@ module.exports = function greeted() {
             .query("SELECT DISTINCT name FROM users")
             .then(resp => {
                 //get data from that specific row
-                const data = resp.rows
-                const list = []
+                var  data = resp.rows
+                var list = []
                 data.forEach(element => {
                     list.push(element.name)
                 })
@@ -91,8 +91,8 @@ module.exports = function greeted() {
         pool
             .query("SELECT name FROM users")
             .then(resp => {
-                const data = resp.rows
-                const listCount = []
+                var data = resp.rows
+                var listCount = []
                 data.forEach(element => {
                     if (element.name === names) {
                         listCount.push(element.name)
