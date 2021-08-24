@@ -133,6 +133,6 @@ module.exports = function greeted() {
         dbLog,
         getGreetedList,
         getCountOFName,
-        reset,
+        reset
     }
 }

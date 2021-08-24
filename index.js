@@ -4,7 +4,7 @@ let express = require('express');
 // const flash = require('express-flash');
 const session = require('express-session');
 let app = express();
-const timeout = require('connect-timeout')
+// const timeout = require('connect-timeout')
 
 
 //handlebars
