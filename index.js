@@ -1,5 +1,5 @@
 "use strict";
-require('make-promises-safe'); // installs an 'unhandledRejection' handler
+require('make-promises-safe').abort=true; // installs an 'unhandledRejection' handler
 
 let express = require('express');
 // const flash = require('express-flash');
