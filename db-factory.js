@@ -16,7 +16,7 @@ const pool = new Pool({
     ssl: useSSL
 });
 
-module.exports = function greeted() {
+module.exports = function greeted(pool) {
     var obj = { count: 0 }
 
     function dbLog(data, res) {
