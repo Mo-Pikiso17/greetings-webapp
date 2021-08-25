@@ -21,8 +21,8 @@ module.exports = function greeted() {
 
     function dbLog(data, res) {
 
-        function setDataToDb() {
-            pool
+        async function setDataToDb() {
+            await pool
                 .query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [data.name, 1, data.languageBtn])
                 .then(resp => {
                     res.redirect('/')
@@ -32,8 +32,8 @@ module.exports = function greeted() {
 
         // setDataToDb()
 
-        function getValueFromDb() {
-            pool
+        async function getValueFromDb() {
+            await pool
                 .query("SELECT DISTINCT name FROM users")
                 .then(resp => {
                     const arg = resp.rows
@@ -43,8 +43,8 @@ module.exports = function greeted() {
                 })
                 .catch()
 
-
-            pool
+//Promise
+            await pool
                 .query("SELECT * FROM users")
                 .then(resp => {
                     const array = resp.rows
@@ -69,8 +69,8 @@ module.exports = function greeted() {
 
     }
 
-    function getGreetedList(res) {
-        pool
+    async function getGreetedList(res) {
+        await pool
             .query("SELECT DISTINCT name FROM users")
             .then(resp => {
                 //get data from that specific row
@@ -89,8 +89,8 @@ module.exports = function greeted() {
 
     }
 
-    function getCountOFName(res, names) {
-        pool
+    async function getCountOFName(res, names) {
+        await pool
             .query("SELECT name FROM users")
             .then(resp => {
                 const data = resp.rows
@@ -114,9 +114,9 @@ module.exports = function greeted() {
 
     }
 
-    function reset(res) {
+    async function reset(res) {
 
-        pool
+        await pool
             .query("DELETE FROM users")
             .then(resp => {
 
