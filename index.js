@@ -97,9 +97,9 @@ const greeting = greetings();
 // })
 
 //home route
-app.get('/', async function (req, res) {
+app.get('/', function (req, res) {
 
-  await dbLogic().dbLog('data', res).getValueFromDb()
+  dbLogic().dbLog('data', res).getValueFromDb()
   //to keep data on the home route
   // res.render('index')
 })
@@ -177,22 +177,22 @@ app.post('/', function (req, res) {
 
 
 
-app.get('/greetedNames', async function (req, res) {
+app.get('/greetedNames', function (req, res) {
 
   // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
-  await dbLogic().getGreetedList(res)
+  dbLogic().getGreetedList(res)
 });
 
-app.get('/greetedNames/:name', async function (req, res) {
+app.get('/greetedNames/:name', function (req, res) {
   const actionType = req.params.name;
   // res.render('count', { greetedNames: greeting.getCount(actionType) });
-  await dbLogic().getCountOFName(res, actionType)
+  dbLogic().getCountOFName(res, actionType)
 
 });
 
-app.get('/reset', async function (req, res) {
+app.get('/reset', function (req, res) {
 
-  await dbLogic().reset(res)
+  dbLogic().reset(res)
     req.session.messages = {
       types: 'SUCCESS!',
       intro: 'Empty field',
