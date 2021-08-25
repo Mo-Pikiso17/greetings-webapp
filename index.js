@@ -1,5 +1,5 @@
 "use strict";
-require('make-promises-safe').abort=true; // installs an 'unhandledRejection' handler
+// require('make-promises-safe').abort=true; // installs an 'unhandledRejection' handler
 
 let express = require('express');
 // const flash = require('express-flash');
@@ -257,5 +257,5 @@ app.get('/reset', function (req, res) {
 let PORT = process.env.PORT || 3011;
 
 app.listen(PORT, function () {
-  console.log('App starting at port:', this.address().PORT, app.settings.env);
+  console.log('App starting at port:', PORT);
 });
