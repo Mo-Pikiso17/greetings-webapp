@@ -16,7 +16,7 @@ const pool = new Pool({
     ssl: useSSL
 });
 
-module.exports = function greeted(pool) {
+module.exports = function greeted() {
     var obj = { count: 0 }
 
     function dbLog(data, res) {
@@ -69,8 +69,8 @@ module.exports = function greeted(pool) {
 
     }
 
-    async function getGreetedList(res) {
-        await pool
+    function getGreetedList(res) {
+        pool
             .query("SELECT DISTINCT name FROM users")
             .then(resp => {
                 //get data from that specific row
@@ -89,8 +89,8 @@ module.exports = function greeted(pool) {
 
     }
 
-    async function getCountOFName(res, names) {
-        await pool
+    function getCountOFName(res, names) {
+        pool
             .query("SELECT name FROM users")
             .then(resp => {
                 const data = resp.rows
@@ -114,9 +114,9 @@ module.exports = function greeted(pool) {
 
     }
 
-    async function reset(res) {
+    function reset(res) {
 
-        await pool
+        pool
             .query("DELETE FROM users")
             .then(resp => {
 
