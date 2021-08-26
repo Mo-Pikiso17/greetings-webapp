@@ -1,67 +1,32 @@
-require('make-promises-safe'); // installs an 'unhandledRejection' handler
+// require('make-promises-safe'); // installs an 'unhandledRejection' handler
 
-const pg = require('pg');
-const Pool = pg.Pool;
 
-let useSSL = false;
-let local = process.env.LOCAL || false;
-if (process.env.DATABASE_URL && !local) {
-    useSSL = true;
-}
-
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
-
-const pool = new Pool({
-    connectionString,
-    ssl: useSSL
-});
-
-module.exports = function greeted() {
+module.exports = function greeted(pool) {
     var obj = { count: 0 }
 
-    function dbLog(data, res) {
+    function dbLog(name, languageBtn) {
 
         async function setDataToDb() {
-            await pool
-                .query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [data.name, 1, data.languageBtn])
-                .then(resp => {
-                    res.redirect('/')
-                })
-                .catch(err => console.log(err))
+            await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn])
+
         }
 
-        // setDataToDb()
 
         async function getValueFromDb() {
-            await pool
-                .query("SELECT DISTINCT name FROM users")
-                .then(resp => {
-                    const arg = resp.rows
-                    arg.forEach(element => {
-                        obj.count++
-                    })
-                })
-                .catch()
+            var getting = await pool.query("SELECT DISTINCT name FROM users")
+            const arg = getting.rows
+            arg.forEach(element => {
+                obj.count++
+            })
 
-//Promise
-            await pool
-                .query("SELECT * FROM users")
-                .then(resp => {
-                    const array = resp.rows
+            //Promise
+            var listArray = await pool.query("SELECT * FROM users")
+            const array = listArray.rows
 
-                    const database = array[array.length - 1]
+            const database = array[array.length - 1]
 
-                    // const realDb = [database.name, database.language]
-                    // console.log(realDb)
-                    // database["count"] = 0
-                    setTimeout(() => {
-                        res.render('index', { data: database, count: obj.count })
-
-                    }, 2000);
-
-                })
-                .catch()
-
+            // console.log(database, obj.count )
+            return { data: database, count: obj.count }
 
         }
 
@@ -69,66 +34,46 @@ module.exports = function greeted() {
 
     }
 
-    function getGreetedList(res) {
-        pool
-            .query("SELECT DISTINCT name FROM users")
-            .then(resp => {
-                //get data from that specific row
-                const data = resp.rows
-                const list = []
-                data.forEach(element => {
-                    list.push(element.name)
-                })
-                setTimeout(() => {
-                    res.render('greetedNames', { list })
+    async function getGreetedList() {
+        var greetList = (await pool.query("SELECT DISTINCT name FROM users")).rows
 
-                }, 2000);
-
-            })
-            .catch(err => console.log(err));
+        const list = []
+        greetList.forEach(element => {
+            list.push(element.name)
+        })
+        return list 
 
     }
 
-    function getCountOFName(res, names) {
-        pool
-            .query("SELECT name FROM users")
-            .then(resp => {
-                const data = resp.rows
-                const listCount = []
-                data.forEach(element => {
-                    if (element.name === names) {
-                        listCount.push(element.name)
-                    }
-                })
+    async function getCountOFName(names) {
+        var nameCountNames = await pool.query("SELECT name FROM users")
+        const data = nameCountNames.rows
+        const listCount = []
+        data.forEach(element => {
+            if (element.name === names) {
+                listCount.push(element.name)
+            }
+        })
 
-                setTimeout(() => {
-                    res.render('count', { count: listCount.length, names })
+        return { count: listCount.length, names }
 
-                }, 2000);
+        // setTimeout(() => {
+        // res.render('count', { count: listCount.length, names })
 
-
-            })
-            .catch(err => console.log(err));
-
-
+        // }, 2000);
 
     }
 
-    function reset(res) {
+    async function reset() {
 
-        pool
-            .query("DELETE FROM users")
-            .then(resp => {
+        await pool.query("DELETE FROM users")
+        // .then(resp => {
 
-                res.redirect('/')
-            })
-            .catch(err => console.log(err));
+        //     res.redirect('/')
+        // })
+        // .catch(err => console.log(err));
 
     }
-
-    // function haltOnTimedout (req, res, next) {
-    //     if (!req.timedout) next()
-    //   }
 
 
     return {

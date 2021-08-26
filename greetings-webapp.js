@@ -1,4 +1,23 @@
 const dbLogic = require('./db-factory');
+const pg = require('pg');
+
+const Pool = pg.Pool;
+
+// use a SSL connection
+let useSSL = false;
+let local = process.env.LOCAL || false;
+if (process.env.DATABASE_URL && !local) {
+  useSSL = true;
+}
+
+// database connection to use
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
+const pool = new Pool({
+    connectionString,
+    ssl: useSSL
+  
+  });
+  
 
 module.exports = function greetings() {
 
@@ -16,7 +35,7 @@ module.exports = function greetings() {
 
 
 
-    function recordNames(action, res) {
+    function recordNames(action) {
 
         var obj = {};
 
@@ -49,7 +68,7 @@ module.exports = function greetings() {
 
 
         listNames.push(obj);
-        dbLogic().dbLog(obj, res).setDataToDb();
+        dbLogic(pool).dbLog(obj.name, obj.languageBtn).setDataToDb();
         // console.log(listNames);
         // console.log("here "+listNames);
 

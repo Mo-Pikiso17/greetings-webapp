@@ -1,5 +1,4 @@
 "use strict";
-// require('make-promises-safe').abort=true; // installs an 'unhandledRejection' handler
 
 let express = require('express');
 // const flash = require('express-flash');
@@ -97,11 +96,11 @@ const greeting = greetings();
 // })
 
 //home route
-app.get('/', function (req, res) {
+app.get('/', async function (req, res) {
 
-  dbLogic().dbLog('data', res).getValueFromDb()
+  var gettingLogic = await dbLogic(pool).dbLog().getValueFromDb()
   //to keep data on the home route
-  // res.render('index')
+  res.render('index', { gettingLogic })
 })
 
 
@@ -110,7 +109,27 @@ app.post('/', function (req, res) {
   const names = req.body.name
   const language = req.body.languageBtn
 
-  // greeting.recordNames(req.body, res)
+  // function errors(names, language) {
+
+  //   if (names  && language) {
+
+  //     dbLogic(pool).dbLog(names, language).setDataToDb()
+  //     // setTimeout(() => {
+  //       res.redirect('/');
+
+  // }, 100);
+
+
+      
+  //   } else {
+  //     // console.log('no data')
+
+
+  //   }
+    
+  // }
+  // errors()
+
 
   // const counts = req.body.count
 
@@ -120,12 +139,13 @@ app.post('/', function (req, res) {
       type: 'ERROR!',
       intro: 'Empty field',
       message: 'Please enter and select a language!'
+
     }
     res.redirect('/');
 
   }
 
-  else if (names == '') {
+  else if (names == '' && language) {
 
     req.session.message = {
       type: 'ERROR!',
@@ -135,122 +155,67 @@ app.post('/', function (req, res) {
     res.redirect('/');
   }
 
-  else if (language == null) {
+  else if (names && language == null) {
 
     req.session.message = {
       type: 'ERROR!',
       intro: 'Empty field',
       message: 'Please select a language!'
     }
+    
     res.redirect('/');
 
   }
 
-  else {
-    greeting.recordNames(req.body, res)
+  else if (names  && language) {
+
+    // dbLogic(pool).dbLog(names, language).setDataToDb()
+    greeting.recordNames(req.body)
+
+
+    setTimeout(() => {
+      res.redirect('/')
+
+  }, 100);
+
   }
 
-  // else {
-  // greetings.recordNames(req.body, res)
-  //   const msg = greeting.greets(language, names);
-  //   // console.log({ msg });
-  //   const count = greeting.getC();
-  //   // console.log(count);
-  //   greeting.greetedNames(req.body)
-
-
-  // pool.query(
-  //   'INSERT INTO users (name, count) VALUES ($1, $2)',
-
-  //   [names, count],
-
-  // );
-
-  // res.render('index', {
-  //   msg,
-  //   count
-  // });
-
-  // }
-
 });
 
 
 
-app.get('/greetedNames', function (req, res) {
+app.get('/greetedNames', async function (req, res) {
 
   // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
-  dbLogic().getGreetedList(res)
+  var gList = await dbLogic(pool).getGreetedList()
+// console.log(gList)
+  res.render('greetedNames', { gList })
+
 });
 
-app.get('/greetedNames/:name', function (req, res) {
+app.get('/greetedNames/:name', async function (req, res) {
   const actionType = req.params.name;
   // res.render('count', { greetedNames: greeting.getCount(actionType) });
-  dbLogic().getCountOFName(res, actionType)
+  var countN = await dbLogic(pool).getCountOFName(actionType)
+
+  res.render('count', { countN })
+
 
 });
 
-app.get('/reset', function (req, res) {
+app.get('/reset', async function (req, res) {
 
-  dbLogic().reset(res)
-    req.session.messages = {
-      types: 'SUCCESS!',
-      intro: 'Empty field',
-      messages: 'Page Reloaded!'
-    }
+  await dbLogic(pool).reset()
+  req.session.messages = {
+    types: 'SUCCESS!',
+    intro: 'Empty field',
+    messages: 'Page Reloaded!'
+  }
 
+  res.redirect('/')
 
 })
 
-
-
-
-//   //check empty field and send a flash message for that.
-//   if(req.body.name == '' && req.body.languageBtn == null ){
-
-//       req.flash.message = {
-//           type: 'ERROR!',
-//           intro: 'Empty field and no language',
-//           message: 'Please enter a name & select a language'
-//       }
-//       res.redirect('/');
-//   }
-//   if (req.body.name == ''){
-
-//       req.flash.message = {
-//           type: 'ERROR!',
-//           intro: 'Empty field',
-//           message: 'Please enter a name'
-//       }
-//       res.redirect('/');
-//   }
-//   // else if (req.body.languageBtn == null ){
-
-//   //     req.session.message = {
-//   //         type: 'ERROR!',
-//   //         intro: 'no language',
-//   //         message: 'Please select a language'
-//   //     }
-//   //     res.redirect('/');
-//   // }
-//   else{
-//       req.flash.message = {
-//           type: 'Success!',
-//           intro: 'Name entered',
-//           message: 'Name greeted sucessfully'
-//       }
-//       res.redirect('/');
-//   }
-
-// })
-
-
-// process.on("unhandledRejection", err =>{
-
-//   console.log(`send this error to: ${err.stack}`);
-//   console.log("---------------------------");
-
-// })
 
 
 //start the server
