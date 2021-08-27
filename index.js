@@ -98,7 +98,14 @@ const greeting = greetings();
 //home route
 app.get('/', async function (req, res) {
 
-  var gettingLogic = await dbLogic(pool).dbLog().getValueFromDb()
+  try {
+    var gettingLogic = await dbLogic(pool).dbLog().getValueFromDb()
+
+    
+  } catch (e) {
+    console.log('Catch an error: ', e)
+  }
+
   //to keep data on the home route
   res.render('index', { gettingLogic })
 })
