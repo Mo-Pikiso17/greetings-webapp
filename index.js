@@ -192,10 +192,17 @@ app.post('/', async function (req, res) {
 
 
 app.get('/greetedNames', async function (req, res) {
+  try {
 
-  // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
+    // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
   var gList = await dbLogic(pool).getGreetedList()
-// console.log(gList)
+
+    
+  } catch (e) {
+    console.log('Catch an error: ', e)    
+  }
+
+  // console.log(gList)
   res.render('greetedNames', { gList })
 
 });
