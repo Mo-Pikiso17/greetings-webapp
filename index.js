@@ -101,7 +101,7 @@ app.get('/', async function (req, res) {
   try {
     var gettingLogic = await dbLogic(pool).dbLog().getValueFromDb()
 
-    
+
   } catch (e) {
     console.log('Catch an error: ', e)
   }
@@ -127,65 +127,81 @@ app.post('/', async function (req, res) {
   // }, 100);
 
 
-      
+
   //   } else {
   //     // console.log('no data')
 
 
   //   }
-    
+
   // }
   // errors()
 
 
   // const counts = req.body.count
 
-  if (names == '' && language == null) {
+  try {
 
-    req.session.message = {
-      type: 'ERROR!',
-      intro: 'Empty field',
-      message: 'Please enter and select a language!'
+    if (names == '' && language == null) {
+
+      req.session.message = {
+        type: 'ERROR!',
+        intro: 'Empty field',
+        message: 'Please enter and select a language!'
+
+      }
+      res.redirect('/');
 
     }
-    res.redirect('/');
+
+    else if (names == '' && language) {
+
+      req.session.message = {
+        type: 'ERROR!',
+        intro: 'Empty field',
+        message: 'Please enter a name!'
+      }
+      res.redirect('/');
+    }
+
+    else if (names && language == null) {
+
+      req.session.message = {
+        type: 'ERROR!',
+        intro: 'Empty field',
+        message: 'Please select a language!'
+      }
+
+      res.redirect('/');
+
+    }
+
+    else if (names && language) {
+
+      // dbLogic(pool).dbLog(names, language).setDataToDb()
+      await greeting.recordNames(req.body)
+
+
+
+    }
 
   }
 
-  else if (names == '' && language) {
+  catch (e) {
 
-    req.session.message = {
-      type: 'ERROR!',
-      intro: 'Empty field',
-      message: 'Please enter a name!'
-    }
-    res.redirect('/');
-  }
+    console.log('Catch an error: ', e)
 
-  else if (names && language == null) {
-
-    req.session.message = {
-      type: 'ERROR!',
-      intro: 'Empty field',
-      message: 'Please select a language!'
-    }
-    
-    res.redirect('/');
 
   }
 
-  else if (names  && language) {
-
-    // dbLogic(pool).dbLog(names, language).setDataToDb()
-    await greeting.recordNames(req.body)
 
 
-    setTimeout(() => {
-      res.redirect('/')
+  setTimeout(() => {
+    res.redirect('/')
 
   }, 100);
 
-  }
+
 
 });
 
@@ -195,11 +211,11 @@ app.get('/greetedNames', async function (req, res) {
   try {
 
     // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
-  var gList = await dbLogic(pool).getGreetedList()
+    var gList = await dbLogic(pool).getGreetedList()
 
-    
+
   } catch (e) {
-    console.log('Catch an error: ', e)    
+    console.log('Catch an error: ', e)
   }
 
   // console.log(gList)
@@ -209,8 +225,15 @@ app.get('/greetedNames', async function (req, res) {
 
 app.get('/greetedNames/:name', async function (req, res) {
   const actionType = req.params.name;
-  // res.render('count', { greetedNames: greeting.getCount(actionType) });
-  var countN = await dbLogic(pool).getCountOFName(actionType)
+  try {
+    // res.render('count', { greetedNames: greeting.getCount(actionType) });
+    var countN = await dbLogic(pool).getCountOFName(actionType)
+
+
+  } catch (e) {
+    console.log('Catch an error: ', e)
+
+  }
 
   res.render('count', { countN })
 
@@ -219,12 +242,21 @@ app.get('/greetedNames/:name', async function (req, res) {
 
 app.get('/reset', async function (req, res) {
 
-  await dbLogic(pool).reset()
-  req.session.messages = {
-    types: 'SUCCESS!',
-    intro: 'Empty field',
-    messages: 'Page Reloaded!'
+  try {
+    await dbLogic(pool).reset()
+    req.session.messages = {
+      types: 'SUCCESS!',
+      intro: 'Empty field',
+      messages: 'Page Reloaded!'
+    }
+
+
+  } catch (e) {
+
+    console.log('Catch an error: ', e)
+
   }
+
 
   res.redirect('/')
 
