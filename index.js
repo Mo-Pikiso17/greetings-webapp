@@ -104,7 +104,7 @@ app.get('/', async function (req, res) {
 })
 
 
-app.post('/', function (req, res) {
+app.post('/', async function (req, res) {
 
   const names = req.body.name
   const language = req.body.languageBtn
@@ -170,7 +170,7 @@ app.post('/', function (req, res) {
   else if (names  && language) {
 
     // dbLogic(pool).dbLog(names, language).setDataToDb()
-    greeting.recordNames(req.body)
+    await greeting.recordNames(req.body)
 
 
     setTimeout(() => {
