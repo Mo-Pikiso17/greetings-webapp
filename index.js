@@ -275,7 +275,7 @@ app.get('/reset', async function (req, res) {
 
 
 //start the server
-let PORT = process.env.PORT || 3011;
+let PORT = process.env.PORT || 3012;
 
 app.listen(PORT, function () {
   console.log('App starting at port:', PORT);
