@@ -7,7 +7,7 @@ const Pool = pg.Pool;
 let useSSL = false;
 let local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local) {
-  useSSL = true;
+    useSSL = true;
 }
 
 // database connection to use
@@ -15,9 +15,9 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:modd
 const pool = new Pool({
     connectionString,
     ssl: useSSL
-  
-  });
-  
+
+});
+
 
 module.exports = function greetings() {
 
@@ -40,32 +40,50 @@ module.exports = function greetings() {
         var obj = {};
 
         function setName() {
+            try {
+                obj["name"] = action.name;
 
-            obj["name"] = action.name;
+
+            } catch (e) {
+                console.log('Catch an error: ', e)
+
+
+            }
+
             // obj["count"] = 1;
         }
 
         setName()
 
         function setLanguage() {
+            try {
+
+                if (action.languageBtn === "English") {
+                    obj["languageBtn"] = "Hello, "
+                }
+
+                if (action.languageBtn === "IsiXhosa") {
+                    obj["languageBtn"] = "Molo, "
+
+                }
+
+                if (action.languageBtn === "Swahili") {
+                    obj["languageBtn"] = "Jambo, "
+                }
 
 
-            if (action.languageBtn === "English") {
-                obj["languageBtn"] = "Hello, "
+            } 
+            
+            
+            catch (e) {
+                console.log('Catch an error: ', e)
+
+
             }
 
-            if (action.languageBtn === "IsiXhosa") {
-                obj["languageBtn"] = "Molo, "
 
-            }
-
-            if (action.languageBtn === "Swahili") {
-                obj["languageBtn"] = "Jambo, "
-            }
         }
-
         setLanguage()
-
 
         await listNames.push(obj);
         dbLogic(pool).dbLog(obj.name, obj.languageBtn).setDataToDb();
@@ -79,7 +97,7 @@ module.exports = function greetings() {
 
         setNames(name)
 
-        
+
         if (language === "English") {
             return "Hello, " + name;
         }
@@ -92,7 +110,7 @@ module.exports = function greetings() {
         if (language === "Swahili") {
             return "Jambo, " + name;
         }
-     
+
         return language + name
 
 
@@ -137,10 +155,10 @@ module.exports = function greetings() {
     }
 
 
-    
+
 
     function setNames(name) {
-        
+
 
         if (greetedNamesList[name] == undefined) {
             // console.log(greetedNamesList)
