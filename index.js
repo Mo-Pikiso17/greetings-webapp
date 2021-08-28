@@ -104,6 +104,7 @@ app.get('/', async function (req, res) {
 
   } catch (e) {
     console.log('Catch an error: ', e)
+    // return;
   }
 
   //to keep data on the home route
@@ -185,21 +186,25 @@ app.post('/', async function (req, res) {
 
     }
 
+    setTimeout(() => {
+      res.redirect('/')
+  
+    }, 100);
+  
+
   }
 
   catch (e) {
 
     console.log('Catch an error: ', e)
+    // return;
+
 
 
   }
 
 
 
-  setTimeout(() => {
-    res.redirect('/')
-
-  }, 100);
 
 
 
@@ -212,6 +217,7 @@ app.get('/greetedNames', async function (req, res) {
 
     // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
     var gList = await dbLogic(pool).getGreetedList()
+    res.render('greetedNames', { gList })
 
 
   } catch (e) {
@@ -219,7 +225,6 @@ app.get('/greetedNames', async function (req, res) {
   }
 
   // console.log(gList)
-  res.render('greetedNames', { gList })
 
 });
 
@@ -228,14 +233,17 @@ app.get('/greetedNames/:name', async function (req, res) {
   try {
     // res.render('count', { greetedNames: greeting.getCount(actionType) });
     var countN = await dbLogic(pool).getCountOFName(actionType)
+    res.render('count', { countN })
+
 
 
   } catch (e) {
     console.log('Catch an error: ', e)
+    // return;
+
 
   }
 
-  res.render('count', { countN })
 
 
 });
@@ -249,16 +257,17 @@ app.get('/reset', async function (req, res) {
       intro: 'Empty field',
       messages: 'Page Reloaded!'
     }
+    res.redirect('/')
+
 
 
   } catch (e) {
 
     console.log('Catch an error: ', e)
+    // return;
+
 
   }
-
-
-  res.redirect('/')
 
 })
 
