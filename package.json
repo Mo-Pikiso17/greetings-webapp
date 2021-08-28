@@ -1,7 +1,7 @@
 {
   "name": "greetings-webapp",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "node index.js",
   "directories": {
     "test": "test"
   },

@@ -100,6 +100,7 @@ app.get('/', async function (req, res) {
 
   try {
     var gettingLogic = await dbLogic(pool).dbLog().getValueFromDb()
+    
     res.render('index', { gettingLogic })
 
 
