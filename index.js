@@ -100,6 +100,7 @@ app.get('/', async function (req, res) {
 
   try {
     var gettingLogic = await dbLogic(pool).dbLog().getValueFromDb()
+    res.render('index', { gettingLogic })
 
 
   } catch (e) {
@@ -108,7 +109,6 @@ app.get('/', async function (req, res) {
   }
 
   //to keep data on the home route
-  res.render('index', { gettingLogic })
 })
 
 
@@ -182,15 +182,15 @@ app.post('/', async function (req, res) {
       // dbLogic(pool).dbLog(names, language).setDataToDb()
       await greeting.recordNames(req.body)
 
-
+      setTimeout(() => {
+        res.redirect('/')
+    
+      }, 100);
+    
 
     }
 
-    setTimeout(() => {
-      res.redirect('/')
-  
-    }, 100);
-  
+    
 
   }
 
