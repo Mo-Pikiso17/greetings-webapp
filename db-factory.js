@@ -36,7 +36,7 @@ module.exports = function greeted(pool) {
                 const database = array[array.length - 1]
 
                 // console.log(database, obj.count )
-                return await { data: database, count: obj.count }
+                return  { data: database, count: obj.count }
 
 
 
