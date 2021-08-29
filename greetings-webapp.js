@@ -86,7 +86,7 @@ module.exports = function greetings() {
         setLanguage()
 
         await listNames.push(obj);
-        dbLogic(pool).dbLog(obj.name, obj.languageBtn).setDataToDb();
+        return dbLogic(pool).dbLog(obj.name, obj.languageBtn).setDataToDb();
         // console.log(listNames);
         // console.log("here "+listNames);
 

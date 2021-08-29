@@ -206,12 +206,18 @@ app.post('/', async function (req, res) {
     else if (names && language) {
 
       // dbLogic(pool).dbLog(names, language).setDataToDb()
-      await greeting.recordNames(req.body)
-
-      setTimeout(() => {
+      var setData = await greeting.recordNames(req.body)
+      .then(value =>{
         res.redirect('/')
+
+      })
+      .catch( error => console.log(error))
+
+
+      // setTimeout(() => {
+      //   res.redirect('/')
     
-      }, 100);
+      // }, 100);
     
 
     }

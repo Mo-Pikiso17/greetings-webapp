@@ -81,46 +81,85 @@ module.exports = function greeted(pool) {
 
     async function getGreetedList() {
 
-        try {
+        var promise = new Promise((resolve, reject) => {
+            resolve(pool.query("SELECT DISTINCT name FROM users"))
+        
+        
+        })
 
-            var greetList = (await pool.query("SELECT DISTINCT name FROM users")).rows
+        // .then()
+        // try {
+        //     await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn])
 
-            const list = []
-            greetList.forEach(element => {
-                list.push(element.name)
-            })
-            return list
+        // } catch (e) {
 
-        } catch (e) {
-            console.log('Catch an error: ', e)
+        //     console.log('Catch an error: ', e)
 
-        }
+
+        // }
+        return promise
+
+
+        // try {
+
+        //     var greetList = (await pool.query("SELECT DISTINCT name FROM users")).rows
+
+        //     const list = []
+        //     greetList.forEach(element => {
+        //         list.push(element.name)
+        //     })
+        //     return list
+
+        // } catch (e) {
+        //     console.log('Catch an error: ', e)
+
+        // }
 
 
     }
 
     async function getCountOFName(names) {
 
-        try {
 
-            var nameCountNames = await pool.query("SELECT name FROM users")
-            const data = nameCountNames.rows
-            const listCount = []
-            data.forEach(element => {
-                if (element.name === names) {
-                    listCount.push(element.name)
-                }
-            })
+        var promise = new Promise((resolve, reject) => {
+            resolve(pool.query("SELECT name FROM users"))
+        
+        
+        })
 
-            return { count: listCount.length, names }
+        // .then()
+        // try {
+        //     await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn])
 
+        // } catch (e) {
 
-        } catch (e) {
-
-            console.log('Catch an error: ', e)
+        //     console.log('Catch an error: ', e)
 
 
-        }
+        // }
+        return promise
+
+
+        // try {
+
+        //     var nameCountNames = await pool.query("SELECT name FROM users")
+        //     const data = nameCountNames.rows
+        //     const listCount = []
+        //     data.forEach(element => {
+        //         if (element.name === names) {
+        //             listCount.push(element.name)
+        //         }
+        //     })
+
+        //     return { count: listCount.length, names }
+
+
+        // } catch (e) {
+
+        //     console.log('Catch an error: ', e)
+
+
+        // }
 
         // setTimeout(() => {
         // res.render('count', { count: listCount.length, names })
@@ -131,14 +170,33 @@ module.exports = function greeted(pool) {
 
     async function reset() {
 
-        try {
-            await pool.query("DELETE FROM users")
+        var promise = new Promise((resolve, reject) => {
+            resolve(pool.query("DELETE FROM users"))
+        
+        
+        })
+
+        // .then()
+        // try {
+        //     await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn])
+
+        // } catch (e) {
+
+        //     console.log('Catch an error: ', e)
 
 
-        } catch (e) {
-            console.log('Catch an error: ', e)
+        // }
+        return promise
 
-        }
+
+        // try {
+        //     await pool.query("DELETE FROM users")
+
+
+        // } catch (e) {
+        //     console.log('Catch an error: ', e)
+
+        // }
 
         // .then(resp => {
 
