@@ -63,7 +63,7 @@ const Pool = pg.Pool;
 let useSSL = false;
 let local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local) {
-  useSSL = true;
+  useSSL = {rejectUnauthorized:false}
 }
 
 // database connection to use
