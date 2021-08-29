@@ -138,7 +138,7 @@ app.get('/', async function (req, res) {
 })
 
 
-app.post('/', async function (req, res) {
+app.post('/', function (req, res) {
 
   const names = req.body.name
   const language = req.body.languageBtn
@@ -206,8 +206,10 @@ app.post('/', async function (req, res) {
     else if (names && language) {
 
       // dbLogic(pool).dbLog(names, language).setDataToDb()
-      var setData = await greeting.recordNames(req.body)
+      var setData = greeting.recordNames(req.body)
+      var databaseData = dbLogic(pool).dbLog(setData.name, setData.language).setDataToDb()
       .then(value =>{
+        
         res.redirect('/')
 
       })

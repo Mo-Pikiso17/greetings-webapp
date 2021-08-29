@@ -35,7 +35,7 @@ module.exports = function greetings() {
 
 
 
-    async function recordNames(action) {
+    function recordNames(action) {
 
         var obj = {};
 
@@ -85,8 +85,8 @@ module.exports = function greetings() {
         }
         setLanguage()
 
-        await listNames.push(obj);
-        return dbLogic(pool).dbLog(obj.name, obj.languageBtn).setDataToDb();
+        listNames.push(obj);
+        return {name: obj.name, language: obj.languageBtn}
         // console.log(listNames);
         // console.log("here "+listNames);
 
