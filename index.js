@@ -268,7 +268,18 @@ app.get('/greetedNames/:name', async function (req, res) {
   try {
     // res.render('count', { greetedNames: greeting.getCount(actionType) });
     var countN = await dbLogic(pool).getCountOFName(actionType)
-    res.render('count', { countN })
+    .then(value => {
+      var countList = value.rows
+      var cList = []
+      countList.forEach(element => {
+        if (element.name == actionType) {
+          cList.push(element.name)
+        }
+      });
+      res.render('count', { count: cList.length, name: actionType })
+    })
+
+    // res.render('count', { countN })
 
 
 
