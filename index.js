@@ -100,8 +100,33 @@ app.get('/', async function (req, res) {
 
   try {
     var gettingLogic = await dbLogic(pool).dbLog().getValueFromDb()
-    
-    res.render('index', { gettingLogic })
+    .then(value => {
+      var obj = {count : 0}
+      var data = value.rows
+      var nArray = []
+      data.forEach(element => {
+    if (nArray.indexOf(element.name ) == -1 ) {
+      nArray.push(element.name)
+      obj.count ++
+    }
+        
+      });
+
+      var currentData = data[data.length -1]
+      for (const key in currentData) {
+          if (key == "name") {
+            obj["name"] = currentData.name;
+          }
+
+          else if ( key == "language") {
+            obj["language"] = currentData.language
+          }
+      }
+      
+      res.render('index', { data: obj })
+
+    })
+    .catch(error => {console.log(error)} )
 
 
   } catch (e) {

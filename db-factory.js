@@ -7,46 +7,72 @@ module.exports = function greeted(pool) {
     function dbLog(name, languageBtn) {
 
         async function setDataToDb() {
-            try {
-                await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn])
+            var promise = new Promise((resolve, reject) => {
+                resolve(pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn]))
+            
+            
+            })
 
-            } catch (e) {
+            // .then()
+            // try {
+            //     await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn])
 
-                console.log('Catch an error: ', e)
+            // } catch (e) {
+
+            //     console.log('Catch an error: ', e)
 
 
-            }
-
+            // }
+            return promise
         }
 
 
         async function getValueFromDb() {
 
-            try {
-                var getting = await pool.query("SELECT DISTINCT name FROM users")
-                const arg = getting.rows
-                arg.forEach(element => {
-                    obj.count++
-                })
+            var promise = new Promise((resolve, reject) => {
+                resolve(pool.query("SELECT * FROM users"))
+            
+            
+            })
 
-                //Promise
-                var listArray = await pool.query("SELECT * FROM users")
-                const array = listArray.rows
+            // .then()
+            // try {
+            //     await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn])
 
-                const database = array[array.length - 1]
+            // } catch (e) {
 
-                // console.log(database, obj.count )
-                return  { data: database, count: obj.count }
+            //     console.log('Catch an error: ', e)
 
 
+            // }
+            return promise
 
 
-            } catch (e) {
+            // try {
+            //     var getting = await pool.query("SELECT DISTINCT name FROM users")
+            //     const arg = getting.rows
+            //     arg.forEach(element => {
+            //         obj.count++
+            //     })
 
-                console.log('Catch an error: ', e)
+            //     //Promise
+            //     var listArray = await pool.query("SELECT * FROM users")
+            //     const array = listArray.rows
+
+            //     const database = array[array.length - 1]
+
+            //     // console.log(database, obj.count )
+            //     return  { data: database, count: obj.count }
 
 
-            }
+
+
+            // } catch (e) {
+
+            //     console.log('Catch an error: ', e)
+
+
+            // }
 
         } return { setDataToDb, getValueFromDb }
 
