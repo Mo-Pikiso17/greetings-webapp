@@ -209,7 +209,7 @@ app.post('/', function (req, res) {
       var setData = greeting.recordNames(req.body)
       var databaseData = dbLogic(pool).dbLog(setData.name, setData.language).setDataToDb()
       .then(value =>{
-        
+
         res.redirect('/')
 
       })
@@ -237,21 +237,22 @@ app.post('/', function (req, res) {
 
   }
 
-
-
-
-
-
 });
 
 
 
 app.get('/greetedNames', async function (req, res) {
+
+
   try {
 
     // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
     var gList = await dbLogic(pool).getGreetedList()
-    res.render('greetedNames', { gList })
+    .then(value => {
+      var list = value.rows
+      res.render('greetedNames', { list })
+
+    })
 
 
   } catch (e) {

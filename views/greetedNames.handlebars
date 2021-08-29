@@ -11,9 +11,9 @@
     <h1>Greeted Users</h1>
 
     <table style="margin: auto; margin-top:20px;font-size: 20px;">
-        {{#each gList}}
+        {{#each list}}
         <tr>
-            <td ><a href="/greetedNames/{{this}}">{{this}}</a></td>
+            <td ><a href="/greetedNames/{{this.name}}">{{this.name}}</a></td>
         </tr>
         {{/each}}
     </table>
