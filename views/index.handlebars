@@ -11,7 +11,7 @@
 
 <body>
     <div class="container">
-        
+
         <div>
             <!-- Greeting heading -->
             <div class="heading">
@@ -19,16 +19,19 @@
                 <h4 style="font-size: 18px; padding-top: 20px; color:  rgb(38, 122, 122)">Welcome! To greet, please
                     enter a name and select a language.</h4>
             </div>
+            <div class="fade-out">
+                {{#if message}}
+                <div style="text-align: center; color: brown; font-weight:bold" class="alert">{{message.type}}
+                </div>
+                <strong>{{message.info}}</strong> {{message.message}}
+                {{/if}}
 
-            {{#if message}}
-            <div style="text-align: center; color: brown; font-weight:bold" class="alert">{{message.type}}</div>
-            <strong>{{message.info}}</strong> {{message.message}}
-            {{/if}}
-
-            {{#if messages}}
-            <div style="text-align: center; color: rgb(49, 165, 49); font-weight:bold" class="alert">{{messages.types}}</div>
-            <strong>{{messages.info}}</strong> {{messages.messages}}
-            {{/if}}
+                {{#if messages}}
+                <div style="text-align: center; color: rgb(49, 165, 49); font-weight:bold" class="alert">
+                    {{messages.types}}</div>
+                <strong>{{messages.info}}</strong> {{messages.messages}}
+                {{/if}}
+            </div>
 
 
 
@@ -87,7 +90,8 @@
 
                     <div class="rest">
                         <!-- Reset button -->
-                        <a href="/reset"><button class="resetBtn" type="button" style="font-size: 15px;">Reset</button></a>
+                        <a href="/reset"><button class="resetBtn" type="button"
+                                style="font-size: 15px;">Reset</button></a>
                     </div>
                 </div>
 
