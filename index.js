@@ -99,7 +99,7 @@ const greeting = greetings();
 app.get('/', async function (req, res) {
 
   try {
-    var gettingLogic = await dbLogic(pool).dbLog().getValueFromDb()
+    var gettingLogic = await dbLogic(pool).getValueFromDb()
     .then(value => {
       var obj = {count : 0}
       var data = value.rows
@@ -207,7 +207,7 @@ app.post('/', function (req, res) {
 
       // dbLogic(pool).dbLog(names, language).setDataToDb()
       var setData = greeting.recordNames(req.body)
-      var databaseData = dbLogic(pool).dbLog(setData.name, setData.language).setDataToDb()
+      var databaseData = dbLogic(pool).setDataToDb(setData.name, setData.language)
       .then(value =>{
 
         res.redirect('/')
