@@ -8,7 +8,7 @@ const Pool = pg.Pool;
 
 let useSSL = false;
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb' || 'postgresql://postgres@localhost:5432/users';
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
 
 const pool = new Pool({
     connectionString,
@@ -38,6 +38,7 @@ describe('The basic database greeting app', function () {
         }
 
         let categories = await gDatabase.getValueFromDb()
+        // delete id, in order to test
         delete categories.rows[0].id
         assert.deepEqual(data, categories.rows[0]);
 
