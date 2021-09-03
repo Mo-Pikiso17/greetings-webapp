@@ -4,42 +4,6 @@
 module.exports = function greeted(pool) {
     // var obj = { count: 0 }
 
-    // try {
-        
-    // } catch (error) {
-
-    //     console.log('Catch an error: ', error)
-    // }
-
-    // try {
-        
-    // } catch (error) {
-
-    //     console.log('Catch an error: ', error)
-    // }
-
-    // try {
-        
-    // } catch (error) {
-
-    //     console.log('Catch an error: ', error)
-    // }
-
-    // try {
-        
-    // } catch (error) {
-
-    //     console.log('Catch an error: ', error)
-    // }
-
-    // try {
-        
-    // } catch (error) {
-
-    //     console.log('Catch an error: ', error)
-    // }
-
-
     async function setDataToDb(name, languageBtn) {
         return await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn])
     }

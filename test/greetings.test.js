@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('assert');
-const  greeted = require('../db-factory');
+const greeted = require('../db-factory');
 const pg = require("pg");
 const Pool = pg.Pool;
 
@@ -11,73 +11,106 @@ let useSSL = false;
 const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:moddy123@localhost:5432/greetingWeb';
 
 const pool = new Pool({
-  connectionString,
-  ssl: useSSL
+    connectionString,
+    ssl: useSSL
 
 });
 
-describe('The basic database greeting app', function(){
+// DATABASE TEST
+describe('The basic database greeting app', function () {
 
-    beforeEach(async function(){
+    let gDatabase = greeted(pool);
+
+
+    beforeEach(async function () {
         // clean the tables before each test run
         await pool.query("DELETE FROM users;");
         // await pool.query("delete from categories;");
     });
 
+    it('should set data into Database', async function () {
+        await gDatabase.setDataToDb("Ndalo", "English");
 
-    it('should count the number of users greeted', async function(){
-        
-        // the Factory Function is called CategoryService
-        let gDatabase = greeted(pool);
+        var data = {
+            name: "Ndalo",
+            count: 1,
+            language: "English",
+        }
 
+        let categories = await gDatabase.getValueFromDb()
+        delete categories.rows[0].id
+        assert.deepEqual(data, categories.rows[0]);
 
-        await gDatabase.setDataToDb("Moddy");
+    });
 
-        var data = gDatabase.getValueFromDb()
-        assert.equal(1, data.length);
+    it('should count the number of greeted users', async function () {
+
+        await gDatabase.setDataToDb("Nalo");
+        await gDatabase.setDataToDb("Nalo");
+        await gDatabase.setDataToDb("Ndalo");
+        await gDatabase.setDataToDb("Ndalo");
+
+        var data = await gDatabase.getCountOFName()
+        assert.equal(4, data.rows.length);
 
     });
 
 
-    it('should set data into Database', async function(){
-        
-        // the Factory Function is called CategoryService
-        let gDatabase = greeted(pool);
-        await gDatabase.setDataToDb("Ndalo","English");
 
-        let categories = gDatabase.getValueFromDb();
-        assert.deepEqual({row:"(1,English,Ndalo)"}, categories);
+    it('should not count duplicate greeted users', async function () {
+
+        await gDatabase.setDataToDb("Nalo");
+        await gDatabase.setDataToDb("Ndalo");
+        await gDatabase.setDataToDb("Ndalo");
+
+
+
+        var data = await gDatabase.getGreetedList()
+        assert.equal(2, data.rows.length);
 
     });
 
-    it('should pass the db test', async function(){
+    it('should reset data in database', async function () {
+
+        // input into database
+        await gDatabase.setDataToDb("Nalo");
+        await gDatabase.setDataToDb("Ndalo");
+        await gDatabase.setDataToDb("Ndalo");
+
+        // clearing my database
+        await gDatabase.reset();
+
+
+        var data = await gDatabase.getValueFromDb()
+
+        // return the index of zero
+        assert.equal(0, data.rows.length);
+
+    });
+
+
+    it('should returns a greeting using the database', async function () {
+
+        await gDatabase.setDataToDb("Ndalo", "Hello");
+
+        var data = "Hello, Ndalo"
         
-        // the Factory Function is called CategoryService
-        let gDatabase = greeted(pool);
 
-        await gDatabase.getValueFromDb("Moddy");
+        let categories = await gDatabase.getValueFromDb()
+        var msg = categories.rows[0].language + ", " + categories.rows[0].name
 
-        await gDatabase.getValueFromDb("Moddy");
-
-        await gDatabase.getValueFromDb("Moddy");
-
-
-        await gDatabase.getGreetedList("Moddy")
-        await gDatabase.getGreetedList("Moddy")
-        await gDatabase.getGreetedList("Moddy")
-
-        assert.equal(1 ,await gDatabase.setDataToDb().length);
+        assert.equal(data, msg);
     });
 
 
 
-    after(function(){
+    after(function () {
         pool.end();
     })
 
 });
 
-
+// PREVIOUS TESTS
 // describe('Greeting function', function () {
 
 //     describe('Language', function () {
@@ -113,27 +146,27 @@ describe('The basic database greeting app', function(){
 
 //         it('should prevent duplicatation of a username', function(){
 
-    
+
 //             greetingApp.setNames("Moddy");
 //             greetingApp.setNames("Moddy");
 //             greetingApp.setNames("Moddy");
 //             greetingApp.setNames("Nalo");
 //             greetingApp.setNames("Ndalo");
 //             // greetingApp.getC()
-    
+
 //             assert.equal(3, greetingApp.getC());
 //         }); 
 
 //         it('should count three usernames', function(){
 
-    
+
 //             greetingApp.recordNames('Moddy');
 //             greetingApp.recordNames('Moddy');
 //             greetingApp.recordNames('Moddy');
 //             greetingApp.recordNames('Ndalo');
 //             greetingApp.recordNames('Ndalo');
 //             greetingApp.recordNames('Luyanda');
-    
+
 //             assert.equal(3, greetingApp.getC());
 //         });
 
