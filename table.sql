@@ -1,0 +1,1 @@
+CREATE TABLE users(id BIGSERIAL PRIMARY KEY NOT NULL, name text NOT NULL, count INT NOT NULL, language text NOT NULL);

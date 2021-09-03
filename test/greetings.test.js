@@ -89,7 +89,7 @@ describe('The basic database greeting app', function () {
     });
 
 
-    it('should returns a greeting using the database', async function () {
+    it('should return a greeting using the database', async function () {
 
         await gDatabase.setDataToDb("Ndalo", "Hello");
 
