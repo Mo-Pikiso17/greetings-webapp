@@ -1,1 +1,1 @@
-create table users(id bigserial primary key not null, name text not null, count int not null, language text not null);
+CREATE TABLE users(id BIGSERIAL PRIMARY KEY NOT NULL, name text NOT NULL, count INT NOT NULL, language text NOT NULL);
