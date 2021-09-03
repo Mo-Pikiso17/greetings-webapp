@@ -46,10 +46,10 @@ describe('The basic database greeting app', function () {
 
     it('should count the number of greeted users', async function () {
 
-        await gDatabase.setDataToDb("Nalo");
-        await gDatabase.setDataToDb("Nalo");
-        await gDatabase.setDataToDb("Ndalo");
-        await gDatabase.setDataToDb("Ndalo");
+        await gDatabase.setDataToDb("Nalo", "English");
+        await gDatabase.setDataToDb("Nalo", "English");
+        await gDatabase.setDataToDb("Ndalo", "English");
+        await gDatabase.setDataToDb("Ndalo", "English");
 
         var data = await gDatabase.getCountOFName()
         assert.equal(4, data.rows.length);
@@ -60,9 +60,9 @@ describe('The basic database greeting app', function () {
 
     it('should not count duplicate greeted users', async function () {
 
-        await gDatabase.setDataToDb("Nalo");
-        await gDatabase.setDataToDb("Ndalo");
-        await gDatabase.setDataToDb("Ndalo");
+        await gDatabase.setDataToDb("Nalo", "English");
+        await gDatabase.setDataToDb("Ndalo", "English");
+        await gDatabase.setDataToDb("Ndalo", "English");
 
 
 
@@ -74,9 +74,9 @@ describe('The basic database greeting app', function () {
     it('should reset data in database', async function () {
 
         // input into database
-        await gDatabase.setDataToDb("Nalo");
-        await gDatabase.setDataToDb("Ndalo");
-        await gDatabase.setDataToDb("Ndalo");
+        await gDatabase.setDataToDb("Nalo", "English");
+        await gDatabase.setDataToDb("Ndalo", "English");
+        await gDatabase.setDataToDb("Ndalo", "English");
 
         // clearing my database
         await gDatabase.reset();
