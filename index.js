@@ -5,7 +5,7 @@ let express = require('express');
 const session = require('express-session');
 let app = express();
 // const timeout = require('connect-timeout')
-
+const routes = require('./routes'); //import the routes
 
 //handlebars
 const exphbs = require('express-handlebars');
@@ -54,7 +54,6 @@ app.use((req, res, next) => {
   next()
 });
 
-// app.use(timeout('5s'))
 
 const pg = require('pg');
 const Pool = pg.Pool;
@@ -76,247 +75,20 @@ const pool = new Pool({
 });
 
 
-
 app.engine('handlebars', handlebarSetup);
 app.set('view engine', 'handlebars');
 
-//database factory function
-const dbLogic = require('./db-factory');
 
-const greetings = require('./greetings-webapp');
+// my routes
+app.use('/', routes);
 
-const greeting = greetings();
+app.use('/', routes);
 
-// app.post('/save', timeout('5s'), bodyParser.json(), haltOnTimedout, function (req, res, next) {
-//   savePost(req.body, function (err, id) {
-//     if (err) return next(err)
-//     if (req.timedout) return
-//     res.send('saved as id ' + id)
-//   })
-// })
+app.use('/greetedNames', routes);
 
-//home route
-app.get('/', async function (req, res) {
+app.use('/greetedNames/:name', routes);
 
-  try {
-    var gettingLogic = await dbLogic(pool).getValueFromDb()
-    .then(value => {
-      var obj = {count : 0}
-      var data = value.rows
-      var nArray = []
-      data.forEach(element => {
-    if (nArray.indexOf(element.name ) == -1 ) {
-      nArray.push(element.name)
-      obj.count ++
-    }
-        
-      });
-
-      var currentData = data[data.length -1]
-      for (const key in currentData) {
-          if (key == "name") {
-            obj["name"] = currentData.name;
-          }
-
-          else if ( key == "language") {
-            obj["language"] = currentData.language
-          }
-      }
-      
-      res.render('index', { data: obj })
-
-    })
-    .catch(error => {console.log(error)} )
-
-
-  } catch (e) {
-    console.log('Catch an error: ', e)
-    // return;
-  }
-
-  //to keep data on the home route
-})
-
-
-app.post('/', function (req, res) {
-
-  const names = req.body.name
-  const language = req.body.languageBtn
-
-  // function errors(names, language) {
-
-  //   if (names  && language) {
-
-  //     dbLogic(pool).dbLog(names, language).setDataToDb()
-  //     // setTimeout(() => {
-  //       res.redirect('/');
-
-  // }, 100);
-
-
-
-  //   } else {
-  //     // console.log('no data')
-
-
-  //   }
-
-  // }
-  // errors()
-
-
-  // const counts = req.body.count
-
-  try {
-
-    if (names == '' && language == null) {
-
-      req.session.message = {
-        type: 'ERROR!',
-        intro: 'Empty field',
-        message: 'Please enter and select a language!'
-
-      }
-      res.redirect('/');
-
-    }
-
-    else if (names == '' && language) {
-
-      req.session.message = {
-        type: 'ERROR!',
-        intro: 'Empty field',
-        message: 'Please enter a name!'
-      }
-      res.redirect('/');
-    }
-
-    else if (names && language == null) {
-
-      req.session.message = {
-        type: 'ERROR!',
-        intro: 'Empty field',
-        message: 'Please select a language!'
-      }
-
-      res.redirect('/');
-
-    }
-
-    else if (names && language) {
-
-      // dbLogic(pool).dbLog(names, language).setDataToDb()
-      var setData = greeting.recordNames(req.body)
-      var databaseData = dbLogic(pool).setDataToDb(setData.name, setData.language)
-      .then(value =>{
-
-        res.redirect('/')
-
-      })
-      .catch( error => console.log(error))
-
-
-      // setTimeout(() => {
-      //   res.redirect('/')
-    
-      // }, 100);
-    
-
-    }
-
-    
-
-  }
-
-  catch (e) {
-
-    console.log('Catch an error: ', e)
-    // return;
-
-
-
-  }
-
-});
-
-
-
-app.get('/greetedNames', async function (req, res) {
-
-
-  try {
-
-    // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
-    var gList = await dbLogic(pool).getGreetedList()
-    .then(value => {
-      var list = value.rows
-      res.render('greetedNames', { list })
-
-    })
-
-
-  } catch (e) {
-    console.log('Catch an error: ', e)
-  }
-
-  // console.log(gList)
-
-});
-
-app.get('/greetedNames/:name', async function (req, res) {
-  const actionType = req.params.name;
-  try {
-    // res.render('count', { greetedNames: greeting.getCount(actionType) });
-    var countN = await dbLogic(pool).getCountOFName(actionType)
-    .then(value => {
-      var countList = value.rows
-      var cList = []
-      countList.forEach(element => {
-        if (element.name == actionType) {
-          cList.push(element.name)
-        }
-      });
-      res.render('count', { count: cList.length, name: actionType })
-    })
-
-    // res.render('count', { countN })
-
-
-
-  } catch (e) {
-    console.log('Catch an error: ', e)
-    // return;
-
-
-  }
-
-
-
-});
-
-app.get('/reset', async function (req, res) {
-
-  try {
-    await dbLogic(pool).reset()
-    req.session.messages = {
-      types: 'SUCCESS!',
-      intro: 'Empty field',
-      messages: 'Page Reloaded!'
-    }
-    res.redirect('/')
-
-
-
-  } catch (e) {
-
-    console.log('Catch an error: ', e)
-    // return;
-
-
-  }
-
-})
-
+app.use('/reset', routes);
 
 
 //start the server
