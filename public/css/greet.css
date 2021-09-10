@@ -6,7 +6,7 @@
 }
 
 body{
-    height: 102vh;
+    height: 105vh;
     margin: auto;
     justify-content: center;
     align-items: center;
@@ -15,8 +15,8 @@ body{
 }
 
 .container{
-    height: 570px;
-    max-width: 900px;
+    height: 600px;
+    max-width: 800px;
     width: 100%;
     margin: auto;
     background: whitesmoke;
