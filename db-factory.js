@@ -3,17 +3,18 @@ module.exports = function greeted(pool) {
     let listNames = [];
 
     async function pushName (name, languageBtn){
-       
 
-        var names =  await pool.query("SELECT * FROM users WHERE name = $1", [name]);
+       var nameFirstLetterCap = name[0].toUpperCase() + name.slice(1).toLowerCase();
+
+        var names =  await pool.query("SELECT * FROM users WHERE name = $1", [nameFirstLetterCap]);
 
         if(names.rows.length == 0){
 
-            return await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [name, 1, languageBtn]);
+            return await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [nameFirstLetterCap, 1, languageBtn]);
 
         }else{
 
-            return await pool.query("UPDATE users SET count =  count + 1 WHERE name = $1", [name]);
+            return await pool.query("UPDATE users SET count =  count + 1 WHERE name = $1", [nameFirstLetterCap]);
 
         }
 
