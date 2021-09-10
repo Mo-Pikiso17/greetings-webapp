@@ -26,10 +26,6 @@ const pool = new Pool({
 //database factory function
 const dbLogic = require('./db-factory');
 
-const greetings = require('./greetings-webapp');
-
-const greeting = greetings();
-
 //home route
 router.get('/', async function (req, res) {
 
@@ -114,27 +110,20 @@ router.post('/', async function (req, res) {
     else if (names && language) {
 
       // dbLogic(pool).dbLog(names, language).setDataToDb()
-      var setData = greeting.recordNames(req.body)
-      var databaseData = dbLogic(pool).setDataToDb(setData.name, setData.language)
+      var setData = await dbLogic(pool).recordNames(req.body)
+      var databaseData = await dbLogic(pool).pushName(setData.name, setData.language)
         .then(value => {
 
           res.redirect('/')
 
         })
         .catch(error => console.log(error))
-
     }
-
-
-
   }
 
   catch (e) {
 
     console.log('Catch an error: ', e)
-    // return;
-
-
 
   }
 
@@ -143,9 +132,6 @@ router.post('/', async function (req, res) {
 
 
 router.get('/greetedNames', async function (req, res) {
-
-
-
   try {
 
     // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
@@ -155,8 +141,6 @@ router.get('/greetedNames', async function (req, res) {
         res.render('greetedNames', { list })
 
       })
-
-
   } catch (e) {
     console.log('Catch an error: ', e)
   }
@@ -166,19 +150,25 @@ router.get('/greetedNames', async function (req, res) {
 
 router.get('/greetedNames/:name', async function (req, res) {
   const actionType = req.params.name;
+
   try {
     // res.render('count', { greetedNames: greeting.getCount(actionType) });
     var countN = await dbLogic(pool).getCountOFName(actionType)
+    // console.log(countN.rows)
       .then(value => {
         var countList = value.rows
+        console.log(countList)
         var cList = []
         countList.forEach(element => {
           if (element.name == actionType) {
-            cList.push(element.name)
+            cList.push(element)
           }
-        });
-        res.render('count', { count: cList.length, name: actionType })
-      })
+
+          console.log(cList)
+        })
+      // })
+        res.render('count', { count: cList[0].count, name: actionType })
+      });
 
     // res.render('count', { countN })
 
@@ -186,8 +176,6 @@ router.get('/greetedNames/:name', async function (req, res) {
     console.log('Catch an error: ', e)
 
   }
-
-
 
 })
   
@@ -210,13 +198,4 @@ router.get('/reset', async function (req, res) {
 
 });
 
-
-
-// module.exports = {
-//   home_route,
-//   index_route,
-//   names_route,
-//   nameCount_route,
-//   nameSummary_route,
-// }
 module.exports = router;

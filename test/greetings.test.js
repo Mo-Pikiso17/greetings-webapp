@@ -29,7 +29,7 @@ describe('The basic database greeting app', function () {
     });
 
     it('should set data into Database', async function () {
-        await gDatabase.setDataToDb("Ndalo", "English");
+        await gDatabase.pushName("Ndalo", "English");
 
         var data = {
             name: "Ndalo",
@@ -44,15 +44,16 @@ describe('The basic database greeting app', function () {
 
     });
 
+    
     it('should count the number of greeted users', async function () {
 
-        await gDatabase.setDataToDb("Nalo", "English");
-        await gDatabase.setDataToDb("Nalo", "English");
-        await gDatabase.setDataToDb("Ndalo", "English");
-        await gDatabase.setDataToDb("Ndalo", "English");
+        await gDatabase.pushName("Nalo", "English");
+        await gDatabase.pushName("Nalo", "English");
+        await gDatabase.pushName("Ndalo", "English");
+        await gDatabase.pushName("Ndalo", "English");
 
         var data = await gDatabase.getCountOFName()
-        assert.equal(4, data.rows.length);
+        assert.equal(2, data.rows.length);
 
     });
 
@@ -60,9 +61,9 @@ describe('The basic database greeting app', function () {
 
     it('should not count duplicate greeted users', async function () {
 
-        await gDatabase.setDataToDb("Nalo", "English");
-        await gDatabase.setDataToDb("Ndalo", "English");
-        await gDatabase.setDataToDb("Ndalo", "English");
+        await gDatabase.pushName("Nalo", "English");
+        await gDatabase.pushName("Ndalo", "English");
+        await gDatabase.pushName("Ndalo", "English");
 
 
 
@@ -74,9 +75,9 @@ describe('The basic database greeting app', function () {
     it('should reset data in database', async function () {
 
         // input into database
-        await gDatabase.setDataToDb("Nalo", "English");
-        await gDatabase.setDataToDb("Ndalo", "English");
-        await gDatabase.setDataToDb("Ndalo", "English");
+        await gDatabase.pushName("Nalo", "English");
+        await gDatabase.pushName("Ndalo", "English");
+        await gDatabase.pushName("Ndalo", "English");
 
         // clearing my database
         await gDatabase.reset();
@@ -92,7 +93,7 @@ describe('The basic database greeting app', function () {
 
     it('should return a greeting using the database', async function () {
 
-        await gDatabase.setDataToDb("Ndalo", "Hello");
+        await gDatabase.pushName("Ndalo", "Hello");
 
         var data = "Hello, Ndalo"
         
@@ -111,66 +112,3 @@ describe('The basic database greeting app', function () {
 
 });
 
-// PREVIOUS TESTS
-// describe('Greeting function', function () {
-
-//     describe('Language', function () {
-
-//         let greetingApp = greetings();
-
-//         it('should greet a user in English', function () {
-
-//             assert.strictEqual(("Hello, Moddy"), greetingApp.greets("English", "Moddy"));
-//         });
-
-//         it('should greet a user in IsiXhosa', function () {
-
-//             assert.equal(("Molo, Moddy"), greetingApp.greets("IsiXhosa", "Moddy"));
-//         });
-
-//         it('should greet a user in Swahili', function () {
-
-//             assert.equal(("Jambo, Moddy"), greetingApp.greets("Swahili", "Moddy"));
-//         });
-
-//         it('should be able to record greeting', function () {
-//             greetingApp.recordNames('Hello');
-//             assert.equal(1, greetingApp.greetedNames('Hello').length);
-//         });
-//     });
-
-
-//     describe('Count', function () {
-
-//         let greetingApp = greetings();
-
-
-//         it('should prevent duplicatation of a username', function(){
-
-
-//             greetingApp.setNames("Moddy");
-//             greetingApp.setNames("Moddy");
-//             greetingApp.setNames("Moddy");
-//             greetingApp.setNames("Nalo");
-//             greetingApp.setNames("Ndalo");
-//             // greetingApp.getC()
-
-//             assert.equal(3, greetingApp.getC());
-//         }); 
-
-//         it('should count three usernames', function(){
-
-
-//             greetingApp.recordNames('Moddy');
-//             greetingApp.recordNames('Moddy');
-//             greetingApp.recordNames('Moddy');
-//             greetingApp.recordNames('Ndalo');
-//             greetingApp.recordNames('Ndalo');
-//             greetingApp.recordNames('Luyanda');
-
-//             assert.equal(3, greetingApp.getC());
-//         });
-
-//     });
-
-// });
