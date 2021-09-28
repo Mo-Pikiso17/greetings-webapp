@@ -2,19 +2,18 @@ module.exports = function greeted(pool) {
 
     let listNames = [];
 
-    async function pushName (name, languageBtn){
+    async function pushName(name, languageBtn) {
+        var nameFirstLetterCap = name[0].toUpperCase() + name.slice(1).toLowerCase();
 
-       var nameFirstLetterCap = name[0].toUpperCase() + name.slice(1).toLowerCase();
+        var names = await pool.query("SELECT * FROM users WHERE name = $1", [nameFirstLetterCap]);
 
-        var names =  await pool.query("SELECT * FROM users WHERE name = $1", [nameFirstLetterCap]);
-
-        if(names.rows.length == 0){
+        if (names.rows.length == 0) {
 
             return await pool.query("INSERT INTO users (name,count,language) VALUES($1, $2, $3)", [nameFirstLetterCap, 1, languageBtn]);
 
-        }else{
+        } else {
 
-            return await pool.query("UPDATE users SET count =  count + 1 WHERE name = $1", [nameFirstLetterCap]);
+            return await pool.query("UPDATE users SET count =  count + 1, language = $2 WHERE name = $1", [nameFirstLetterCap, languageBtn]);
 
         }
 
@@ -25,6 +24,8 @@ module.exports = function greeted(pool) {
 
         return await pool.query("SELECT * FROM users");
     }
+
+
 
     // records names
     async function recordNames(action) {
@@ -53,31 +54,24 @@ module.exports = function greeted(pool) {
                     obj["languageBtn"] = "Hello, "
                 }
 
-                if (action.languageBtn === "IsiXhosa") {
+                else if (action.languageBtn === "IsiXhosa") {
                     obj["languageBtn"] = "Molo, "
 
                 }
 
-                if (action.languageBtn === "Swahili") {
+                else if(action.languageBtn === "Swahili") {
                     obj["languageBtn"] = "Jambo, "
                 }
 
-
-            } 
-            
-            
-            catch (e) {
-                console.log('Catch an error: ', e)
-
-
             }
 
-
+            catch (e) {
+                console.log('Catch an error: ', e)
+            }
         }
         setLanguage()
-
         listNames.push(obj);
-        return await {name: obj.name, language: obj.languageBtn}
+        return await { name: obj.name, language: obj.languageBtn }
 
     }
 

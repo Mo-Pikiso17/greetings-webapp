@@ -31,10 +31,10 @@ router.get('/', async function (req, res) {
 
   try {
     var gettingLogic = await dbLogic(pool).getValueFromDb()
-      .then(value => {
+
         var obj = { count: 0 }
-        var data = value.rows
-        var nArray = []
+        var data = gettingLogic.rows;
+        var nArray = [];
         data.forEach(element => {
           if (nArray.indexOf(element.name) == -1) {
             nArray.push(element.name)
@@ -50,16 +50,10 @@ router.get('/', async function (req, res) {
           }
 
           else if (key == "language") {
-            obj["language"] = currentData.language
+            obj["language"] = currentData.language;
           }
         }
-
         res.render('index', { data: obj })
-
-      })
-      .catch(error => { console.log(error) })
-
-
   } catch (e) {
     console.log('Catch an error: ', e)
     // return;
@@ -111,13 +105,14 @@ router.post('/', async function (req, res) {
 
       // dbLogic(pool).dbLog(names, language).setDataToDb()
       var setData = await dbLogic(pool).recordNames(req.body)
-      var databaseData = await dbLogic(pool).pushName(setData.name, setData.language)
-        .then(value => {
+      await dbLogic(pool).pushName(setData.name, setData.language)
+  
+        // .then(value => {
 
           res.redirect('/')
 
-        })
-        .catch(error => console.log(error))
+        // })
+        // .catch(error => console.log(error))
     }
   }
 
@@ -136,11 +131,11 @@ router.get('/greetedNames', async function (req, res) {
 
     // res.render('greetedNames', { greetedNames: greeting.greetedNames() })
     var gList = await dbLogic(pool).getGreetedList()
-      .then(value => {
-        var list = value.rows
+      // .then(value => {
+        var list = gList.rows
         res.render('greetedNames', { list })
 
-      })
+      // })
   } catch (e) {
     console.log('Catch an error: ', e)
   }
@@ -155,20 +150,20 @@ router.get('/greetedNames/:name', async function (req, res) {
     // res.render('count', { greetedNames: greeting.getCount(actionType) });
     var countN = await dbLogic(pool).getCountOFName(actionType)
     // console.log(countN.rows)
-      .then(value => {
-        var countList = value.rows
-        console.log(countList)
+      // .then(value => {
+        var countList = countN.rows
+        // console.log(countList)
         var cList = []
         countList.forEach(element => {
           if (element.name == actionType) {
             cList.push(element)
           }
 
-          console.log(cList)
+          // console.log(cList)
         })
       // })
         res.render('count', { count: cList[0].count, name: actionType })
-      });
+      // });
 
     // res.render('count', { countN })
 
